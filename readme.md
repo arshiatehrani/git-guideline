@@ -633,7 +633,9 @@ If Git says your branch is "behind," run `git pull`. If it says "ahead," you hav
 
 # 11. Undoing Mistakes Safely
 
-Always start with `git status` to see exactly what state you're in.
+Always start with `git status` to see exactly what state you're in — every command below assumes you've checked that first.
+
+### Quick reference
 
 | Situation | Command | Notes |
 |---|---|---|
@@ -643,34 +645,167 @@ Always start with `git status` to see exactly what state you're in.
 | View history | `git log --oneline` | Safe, read-only |
 | Undo a commit that's already pushed/shared | `git revert <commit-hash>` | Safe — adds a new commit that reverses the change, history stays intact |
 
-> ⚠️ Avoid `git reset --hard` unless you fully understand what it does — it can permanently delete uncommitted work with no undo. When in doubt, `git revert` is the safe option for anything already shared with others.
+### What each command actually does
+
+**`git restore --staged <file>`** — moves a file out of the staging area, back to "modified but not staged." Your edits are untouched; you've only undone the `git add`.
+
+```powershell
+git add report.py        # staged by mistake
+git restore --staged report.py
+git status
+# modified:   report.py   <- back to unstaged, edits still there
+```
+
+**`git restore <file>`** — throws away uncommitted edits and replaces the file with the last *committed* version. ⚠️ Destructive: whatever you typed since the last commit is gone, with no undo. Only use it once you're certain you want those specific edits discarded.
+
+**`git commit --amend`** — replaces your most recent commit with a new one. Run it alone to just edit the message, or `git add` more changes first to fold them into that same commit. It **rewrites** the commit (new hash), which is why it's only safe **before** you've pushed — amending a commit someone else already pulled creates two different histories and forces a `git push --force` to reconcile, which can overwrite their work. Not sure if you've pushed yet? `git status` will say "ahead of 'origin/main'" if you haven't.
+
+**`git log --oneline`** — a read-only list of commits, newest first, each with a short hash and message. Nothing here can break anything. Add `--graph --all` to see branches visually (see [Section 8](#8-working-with-branches)), or `-p -- <file>` to see the actual line-by-line changes to one file, commit by commit — useful when hunting for when something broke (see below).
+
+**`git revert <commit-hash>`** — creates a **new** commit that applies the exact opposite of an earlier one, undoing its changes without deleting it from history. Safe for anything already pushed or shared, because nobody's history gets rewritten — the "bad" commit stays visible in the log, right next to the new commit that cancels it out.
+
+### Example: "my code used to work, now it doesn't — how do I find out why, and go back?"
+
+This is the single most common real-world use of everything in this section. There are two separate problems: **finding** which change broke things, and **deciding** what to do once you've found it.
+
+#### Step 1 — Find the commit that introduced the bug
+
+```mermaid
+flowchart LR
+  A["Notice something is broken"] --> B{"Do you know roughly<br/>which commit?"}
+  B -->|"yes"| C["git log -p -- path/to/file<br/>read the diffs directly"]
+  B -->|"no / many commits<br/>since it worked"| D["git bisect<br/>binary-searches history for you"]
+  C --> E["Found the exact commit"]
+  D --> E
+```
+
+* `git log -p -- path/to/file` — shows every commit that touched that file, with the actual diff each time. Read through until you spot the suspicious change.
+* `git blame path/to/file` — shows, line by line, which commit last changed each line. Great for "who touched this line, and when."
+* `git bisect` — when you have no idea which of many commits is the culprit, this binary-searches history for you instead of checking each one by hand:
+
+```powershell
+git bisect start
+git bisect bad                 # the current code is broken
+git bisect good v1.2.0          # this older tag/commit was known to work
+# Git checks out a commit halfway between the two — build/test it
+git bisect good                 # ...if that midpoint still works
+git bisect bad                  # ...or this, if it's already broken
+# repeat a few times — Git narrows it down each round
+# Git eventually prints: "abc1234 is the first bad commit"
+git bisect reset                # return to where you started, nothing is changed
+```
+
+`git bisect` never modifies your history — it only checks out different commits for you to test, and `git bisect reset` puts you right back where you started.
+
+#### Step 2 — Decide what to do about it
+
+Once you know the commit, you have several options — and it matters which one you pick, because they don't all treat your other, newer work the same way:
+
+| I want to... | Command | What happens to everything else |
+|---|---|---|
+| Just look at how a file used to read, without changing anything | `git show <commit-hash>:path/to/file` | Nothing changes — this only prints the old file content to your screen |
+| Browse the whole project as it looked at an old commit, temporarily | `git switch --detach <commit-hash>` | Nothing lost — a read-only "detached HEAD" view; `git switch main` brings you straight back |
+| Undo the change for good, keeping the history honest | `git revert <bad-commit-hash>` | Nothing lost — adds a new commit undoing just that change; everything committed after it is untouched and stays |
+| Bring back just one file's old content, as new work you can review | `git checkout <commit-hash> -- path/to/file`, then `git status` to confirm, then commit | Only that one file changes; every other file and all history stays exactly as it was |
+| Erase local commits that were never pushed, permanently | `git reset --hard <commit-hash>` | ⚠️ Every commit after `<commit-hash>` becomes unreachable — for practical purposes, gone. (Technically recoverable briefly via `git reflog`, but don't rely on that as a safety net.) |
+
+For anything already pushed, shared with teammates, or that you're even slightly unsure about, **`git revert` is almost always the right answer** — it's the only option here that's both permanent *and* impossible to lose data with:
+
+```
+Before:                                After: git revert d4e5f6
+* d4e5f6 (main) Add feature Y  <-bug     * a1b2c3 (main) Revert "Add feature Y"
+* c3d4e5 Add feature X                   * d4e5f6 Add feature Y
+* b2c3d4 Initial commit                  * c3d4e5 Add feature X
+                                          * b2c3d4 Initial commit
+```
+
+Notice `d4e5f6` (the buggy commit) is still right there in the log — nothing was deleted. `a1b2c3` is a brand-new commit that cancels it out. Anyone who already has `d4e5f6` is unaffected; they'll simply receive `a1b2c3` on their next `git pull`.
+
+> ⚠️ Avoid `git reset --hard` unless you fully understand what it does — it can permanently delete uncommitted work with no undo, and rewinding a branch that's already been pushed requires force-pushing, which can overwrite teammates' work. When in doubt, `git revert` is the safe option for anything already shared with others.
 
 ---
 
 # 12. Ignoring Files You Don't Want to Commit (.gitignore)
 
-A `.gitignore` file tells Git to never track certain files — build output, dependencies, secrets, OS junk files.
+A `.gitignore` file tells Git to never track certain files — build output, dependencies, secrets, OS junk files — so they never show up in `git status`, never get accidentally `git add`-ed, and never end up on GitHub.
 
-Create a `.gitignore` in the repo's root folder, for example:
+### How matching works
 
+Git reads `.gitignore` line by line. Each line is a **pattern**; any file or folder whose path matches a pattern is ignored.
+
+| Pattern | Matches | Example |
+|---|---|---|
+| `filename.txt` | A file/folder with that exact name, **anywhere** in the repo | ignores `filename.txt` at the root and in every subfolder |
+| `*.log` | `*` matches any run of characters — matches by **extension**, anywhere | `error.log`, `src/debug.log`, `logs/2024/jan.log` |
+| `build/` | A trailing `/` means "directories only" | ignores the whole `build` folder and everything inside it, anywhere it appears |
+| `/config.json` | A **leading** `/` anchors the pattern to the repo root only | ignores `config.json` at the root, but not `src/config.json` |
+| `docs/*.pdf` | PDFs directly inside `docs/`, not its subfolders | matches `docs/report.pdf`, not `docs/old/report.pdf` |
+| `docs/**/*.pdf` | `**` matches any depth of subfolders | matches both `docs/report.pdf` and `docs/old/archive/report.pdf` |
+| `!important.log` | A leading `!` **un-ignores** a file that an earlier, broader pattern would otherwise hide | must appear *after* the pattern it's an exception to |
+| `# comment` | Lines starting with `#` are comments — ignored by Git | for humans reading the file |
+
+### Yes — ignoring by file extension works exactly like you'd expect
+
+```gitignore
+*.pdf
+*.docx
+*.csv
 ```
+
+Each line ignores every file with that extension, anywhere in the repository, regardless of folder. This is one of the most common uses of `.gitignore` — keeping generated reports, exports, or local data files out of the repo entirely.
+
+### A realistic combined example
+
+```gitignore
+# Dependencies and build output
 node_modules/
-.env
-*.log
-.DS_Store
-Thumbs.db
+__pycache__/
+dist/
 bin/
 obj/
+
+# Generated files / data exports, by extension
+*.pdf
+*.docx
+*.csv
+*.log
+
+# Secrets and machine-specific config
+.env
+settings.local.json
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Ignore everything in a data folder, except a placeholder so the folder still exists in Git
+data/*
+!data/.gitkeep
 ```
 
-> Check whether the project already has a `.gitignore` — most do. Ask a teammate if you're unsure what belongs in it for your specific project.
+That last pair is a common trick: Git doesn't track empty folders at all, so teams add an empty `.gitkeep` file to force a folder to exist in the repo, then ignore everything else inside it.
 
-Note: `.gitignore` only prevents **new** files from being tracked. To stop tracking a file that's already committed:
+> ⚠️ **Gotcha:** negation (`!`) can't resurrect a file if the *folder* itself was ignored with a trailing slash (`build/`) — Git won't even look inside an ignored folder to check for exceptions. If you need to un-ignore something inside a folder, ignore its *contents* instead (`build/*`) rather than the folder itself (`build/`), as in the `data/*` example above.
+
+### A few more things worth knowing
+
+* **`.gitignore` can live in any folder**, not just the root — one placed inside a subfolder only applies to that subfolder and below. Most projects just use a single one at the repo root.
+* **It only affects untracked files.** If a file was already committed before you added it to `.gitignore`, Git keeps tracking it — the pattern only stops *new* files from being picked up. To stop tracking one that's already committed:
 
 ```powershell
 git rm --cached <file>
 git commit -m "Stop tracking <file>"
 ```
+
+* **Personal junk (editor/OS files) doesn't have to go in the project's `.gitignore` at all.** To avoid adding your own tool's clutter (e.g. `.vscode/`, `.idea/`) to a shared file every teammate sees, set up a **global** gitignore just for your machine:
+
+```powershell
+git config --global core.excludesfile ~/.gitignore_global
+```
+
+Then list your personal-only patterns in `~/.gitignore_global` — they apply to every repo on your computer without ever being committed anywhere.
+
+* **Don't write one from scratch.** [github.com/github/gitignore](https://github.com/github/gitignore) has ready-made templates for almost every language and framework. Check whether the project already has a `.gitignore` before adding your own — most do. Ask a teammate if you're unsure what belongs in it for your specific project.
 
 ---
 
