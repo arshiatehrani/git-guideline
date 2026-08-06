@@ -461,19 +461,35 @@ After it's merged (see [Section 9](#9-collaborating-with-pull-requests)), the gr
 * 53968a5 Update notes with meeting summary
 ```
 
-### Example
+Ask your team if there's a preferred branch naming convention (e.g. `feature/...`, `fix/...`) — many teams have one.
+
+### Switching to an Existing Branch (Activating It)
+
+"Activating" a branch just means switching to it, so your working files match that branch's content and your next commits land on it there.
 
 ```powershell
-git switch -c feature/update-notes
-# Switched to a new branch 'feature/update-notes'
-
-# ...edit files, then the same add / commit steps from Section 7...
-
-git push -u origin feature/update-notes
-# Branch 'feature/update-notes' set up to track 'origin/feature/update-notes'.
+git branch                 # 1. see what's available — the * marks your current branch
+git switch my-branch-name  # 2. activate it
+git branch                 # 3. confirm the * moved
 ```
 
-Ask your team if there's a preferred branch naming convention (e.g. `feature/...`, `fix/...`) — many teams have one.
+> You may also see `git checkout my-branch-name` — the classic equivalent of `git switch`.
+
+**If Git blocks the switch** because you have uncommitted changes in the way, you have two options:
+
+| Option | Command | Result |
+|---|---|---|
+| Commit the changes first | `git add .` then `git commit -m "..."` | The changes become a permanent commit on your *current* branch, then you're free to switch |
+| Set them aside temporarily | `git stash` | Uncommitted changes are shelved (lifted out of your working files and saved separately); switch branches, do whatever you need, then run `git stash pop` back on the original branch to bring them back exactly as they were |
+
+```mermaid
+flowchart LR
+  A["Uncommitted changes<br/>block the switch"] --> B{"Keep them permanently,<br/>or just set aside?"}
+  B -->|"permanent"| C["git add .<br/>git commit -m '...'"] --> D["git switch other-branch"]
+  B -->|"temporary"| E["git stash"] --> F["git switch other-branch"] --> G["...do your work...<br/>git switch back<br/>git stash pop"]
+```
+
+`git stash` can hold more than one shelved set of changes at once (`git stash list` shows them), but as a beginner it's simplest to stash one thing, `git stash pop` it back, and repeat — don't let several stashes pile up unlabeled.
 
 ---
 
@@ -624,10 +640,108 @@ This is the same loop covered in Steps 1–6 above — the diagram just shows al
 
 Always `git pull` on `main` **before** starting new work, so any new branch you create starts from the latest code.
 
-* `git fetch` — checks GitHub for new commits without changing your files.
-* `git pull` — does a fetch, **and** merges those commits into your current branch. This is what you'll use almost all the time.
+### `git fetch` vs. `git pull`
+
+```mermaid
+flowchart LR
+  subgraph FETCH["git fetch"]
+    direction LR
+    F1["GitHub"] -->|"download new commits"| F2["Your computer<br/>(stored as origin/branch)"]
+    F2 -.->|"your files: unchanged"| F3["Working directory"]
+  end
+```
+
+```mermaid
+flowchart LR
+  subgraph PULL["git pull"]
+    direction LR
+    P1["GitHub"] -->|"download new commits"| P2["Your computer<br/>(stored as origin/branch)"]
+    P2 -->|"merge automatically"| P3["Working directory<br/>updated"]
+  end
+```
+
+* **`git fetch`** — downloads new commits from GitHub and stores them under a "remote-tracking" name like `origin/main`, but leaves your own branch and working files completely alone. Safe to run anytime, purely informational — good for checking what's new before deciding what to do with it.
+* **`git pull`** — does a fetch, **and immediately merges** those commits into your current branch. This is what you'll use almost all the time.
 
 If Git says your branch is "behind," run `git pull`. If it says "ahead," you have local commits not yet pushed — run `git push`.
+
+### Getting a Teammate's New Branch for the First Time
+
+A teammate pushed a brand-new branch to GitHub, and you want it on your computer too:
+
+```powershell
+git fetch origin              # 1. download info about everything on GitHub, including new branches
+git branch -r                 # 2. confirm you can now see it, e.g. origin/teammates-branch
+git switch teammates-branch   # 3. check it out — Git automatically links it to origin/teammates-branch for you
+```
+
+```mermaid
+flowchart LR
+  T["Teammate pushes<br/>teammates-branch"] --> GH["GitHub"]
+  GH -->|"git fetch origin"| Y["Your computer<br/>learns the branch exists"]
+  Y -->|"git switch teammates-branch"| L["Local copy of<br/>teammates-branch"]
+```
+
+> **"Branch not found"?** If `git switch teammates-branch` can't find it, your local Git may not know about it yet. Run `git fetch origin` again, or force a full refresh with `git remote update origin --prune` (the `--prune` also cleans up references to branches that were deleted on GitHub).
+
+### Branching Off of a Teammate's Work
+
+You want your **own** branch, but based on what your teammate already built — not on `main`:
+
+```powershell
+git fetch origin                       # 1. get their latest work
+git switch teammates-branch            # 2. start from their branch...
+git switch -c my-branch-name           # 3. ...then fork your own branch off of it
+git push -u origin my-branch-name      # 4. publish your branch to GitHub
+```
+
+```mermaid
+flowchart TD
+  M["main"] --> TB["teammates-branch"]
+  TB --> MY["my-branch-name<br/>forked from their branch,<br/>not from main"]
+```
+
+Your branch now contains everything from `teammates-branch` plus whatever you add — this is different from branching off `main`, which wouldn't include their work yet.
+
+### Updating a Branch You Already Have With a Teammate's New Commits
+
+Your branch already exists locally, and a teammate has since added more commits to *their* branch that you now want. There are two very different ways to bring those in:
+
+**Option A — Merge (safe, recommended): combine their new work with yours**
+
+```powershell
+git fetch origin
+git switch my-branch-name
+git merge origin/teammates-branch
+git push origin my-branch-name
+```
+
+Both branches' commits end up combined — nothing from either side is lost. If Git can't automatically combine them, it tells you there's a conflict; resolve it using [Section 13](#13-resolving-a-merge-conflict), then `git add` and `git commit` to finish.
+
+**Option B — Reset (destructive): make your branch an exact mirror of theirs**
+
+```powershell
+git switch my-branch-name
+git fetch origin
+git reset --hard origin/teammates-branch
+git push origin my-branch-name --force
+```
+
+```mermaid
+flowchart LR
+  subgraph MERGE_OUT["Option A: merge"]
+    direction TB
+    MO1["your commits"] --> MO3["combined result"]
+    MO2["their new commits"] --> MO3
+  end
+  subgraph RESET_OUT["Option B: reset --hard"]
+    direction TB
+    RO1["your commits"] -.->|"discarded"| RO3["exact copy of<br/>their branch"]
+    RO2["their commits"] --> RO3
+  end
+```
+
+> ⚠️ **This is destructive on both ends.** `git reset --hard` permanently throws away any commits your branch had that theirs doesn't — with no undo. `git push --force` overwrites the branch on GitHub, which can also wipe out anyone else's work already pushed there. Only use this if you're certain your branch's own commits aren't needed, and ideally after confirming with anyone else using that branch.
 
 ---
 
@@ -883,6 +997,10 @@ git commit --no-edit
 | Visualize branch history | `git log --oneline --graph --all` |
 | Delete a local branch | `git branch -d branch-name` |
 | Delete a remote branch | `git push origin --delete branch-name` |
+| Check for new branches/commits without changing files | `git fetch origin` |
+| Refresh + clean up deleted remote branches | `git remote update origin --prune` |
+| Shelve uncommitted changes temporarily | `git stash` |
+| Bring shelved changes back | `git stash pop` |
 
 **Undo / Fix**
 
@@ -936,6 +1054,7 @@ Your commits are now safely on `feature/oops`, and `main` matches GitHub again. 
 * **Push** — upload your local commits to a remote (GitHub).
 * **Pull** — download and merge commits from a remote into your local branch.
 * **Fetch** — check the remote for new commits without merging them yet.
+* **Stash** — a temporary shelf for uncommitted changes, so you can switch branches with a clean working directory and bring them back later with `git stash pop`.
 * **Fork** — your own copy of someone else's repository, under your own account.
 * **Pull Request (PR)** — a request on GitHub to merge one branch into another, with room for review and discussion.
 * **Staging area** — the "waiting area" for changes you've `git add`-ed but not yet committed.
