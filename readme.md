@@ -718,6 +718,29 @@ git push origin my-branch-name
 
 Both branches' commits end up combined — nothing from either side is lost. If Git can't automatically combine them, it tells you there's a conflict; resolve it using [Section 13](#13-resolving-a-merge-conflict), then `git add` and `git commit` to finish.
 
+### Common Pitfall: The Merge "Worked," But a Teammate's Changes Are Missing
+
+A very common experience: you run `git merge origin/teammates-branch`, it finishes with no error, but a file you both edited — README.md is the classic example — still only shows *your* version, with nothing from theirs. The merge command didn't fail; something else happened to that specific file. The usual causes, roughly in order of likelihood:
+
+1. **A conflict happened and got resolved in favor of "yours" without you fully noticing.** When both branches edit the same lines of the same file, Git can't guess which version is correct, so it pauses and asks you to decide (see [Section 13](#13-resolving-a-merge-conflict)). If you resolved it in an editor with buttons like "Accept Current Change" / "Accept Incoming Change" / "Accept Both Changes," clicking **Accept Current** (or its equivalent) keeps only *your* version and discards theirs — for every conflicted section in that file. This is by far the most common cause of exactly what you described.
+2. **`git checkout --ours <file>` was used** during the conflict — a command that explicitly keeps your side and throws away the incoming one (see [Section 13](#13-resolving-a-merge-conflict) for what this does and why it's easy to reach for by accident).
+3. **The fetch was stale.** If `git fetch origin` ran *before* your teammate's latest push, `origin/teammates-branch` on your machine didn't contain their newest commit yet. Fetch again and confirm: `git log origin/teammates-branch -- README.md`.
+
+**Check what actually happened, right after merging (before you push):**
+
+```powershell
+git log --oneline --graph --all               # was a merge commit created, from both branches?
+git diff HEAD~1 HEAD -- README.md              # exactly what changed in this file, as part of the merge
+git diff origin/teammates-branch -- README.md  # if this still shows a difference, your file doesn't match theirs
+```
+
+If that last command still shows a diff, your teammate's edits to that file didn't make it in — the merge itself succeeded, but that file's conflict was resolved the wrong way.
+
+**Fixing it without losing your own unique work** (a lighter-weight alternative to Option B below):
+
+* Haven't pushed yet, and want a clean redo? `git merge --abort` cancels the in-progress merge entirely, returning everything to exactly how it was before you ran `git merge` — then try again, reading each conflict carefully instead of accepting one side automatically.
+* Already committed the merge? Pull just that one file's content in as a fresh change: `git checkout origin/teammates-branch -- README.md`, then open it, add back anything from your own version that still needs to be there, and commit.
+
 **Option B — Reset (destructive): make your branch an exact mirror of theirs**
 
 ```powershell
@@ -758,6 +781,7 @@ Always start with `git status` to see exactly what state you're in — every com
 | Fix the last commit's message | `git commit --amend -m "corrected message"` | Only do this **before** pushing |
 | View history | `git log --oneline` | Safe, read-only |
 | Undo a commit that's already pushed/shared | `git revert <commit-hash>` | Safe — adds a new commit that reverses the change, history stays intact |
+| Cancel an in-progress merge/conflict entirely | `git merge --abort` | Safe — only works before you commit the merge; returns you to exactly how things were before you started |
 
 ### What each command actually does
 
@@ -950,6 +974,41 @@ git commit --no-edit
 
 > 💡 VS Code highlights conflicts visually with **Accept Current / Incoming / Both** buttons, which handles the marker cleanup for you — helpful if you'd rather not edit the markers by hand.
 
+> ⚠️ **Read every conflict before accepting anything.** Clicking "Accept Current Change" (or running `git checkout --ours`, below) for a file both sides genuinely edited — a README, a shared config — silently throws away the other person's work with no error and no warning. It's the single most common way a merge "succeeds" but a teammate's changes still end up missing; see [Section 10](#10-keeping-your-local-copy-up-to-date) for exactly that scenario.
+
+### Resolving an Entire File at Once: `--ours` and `--theirs`
+
+Sometimes you don't want to edit conflict markers by hand — you just want to pick one side's *entire* version of a file:
+
+```powershell
+git checkout --ours README.md     # keep your current branch's version, discard the incoming one
+git checkout --theirs README.md   # take the incoming version entirely, discard yours
+git add README.md
+git commit
+```
+
+⚠️ These **replace the whole file** with one side — they do not combine the two. If you actually wanted content from both (usually true for something like a README), don't use these directly; either edit the conflict markers by hand, or use `--ours`/`--theirs` as a starting point and then manually add back whatever you still need from the other side before committing.
+
+> **"Ours" and "theirs" swap meaning during a rebase.** During a normal `git merge` (or `git pull`), "ours" = your current branch, "theirs" = the branch being merged in — as used above. During a `git rebase`, it's reversed, since you're technically replaying *your* commits onto *their* history. If you ever reach for these flags during a rebase, double-check which side you're actually keeping first.
+
+### Changed Your Mind Mid-Conflict?
+
+```powershell
+git merge --abort
+```
+
+Cancels the merge entirely and returns everything to exactly how it was **before** you ran `git merge` — as if you'd never started. Only works before you finish (commit) the merge. Use this any time a conflict resolution goes sideways and you'd rather just start over carefully.
+
+### Always Verify After Resolving
+
+A merge finishing without errors doesn't guarantee the result is what you wanted — especially after using `--ours`/`--theirs` or an editor's "accept" button. Before pushing, check the actual result:
+
+```powershell
+git diff HEAD~1 HEAD -- <file>
+```
+
+This shows exactly what changed in that file as part of the merge commit — confirm it genuinely contains what you expected from both sides.
+
 ---
 
 # 14. Git and GitHub Cheat Sheet
@@ -1010,6 +1069,9 @@ git commit --no-edit
 | Discard uncommitted changes to a file ⚠️ | `git restore <file>` |
 | Fix last commit message (before push) | `git commit --amend -m "new message"` |
 | Undo a pushed commit safely | `git revert <commit-hash>` |
+| Cancel an in-progress merge conflict | `git merge --abort` |
+| Resolve a conflicted file by keeping your version | `git checkout --ours <file>` |
+| Resolve a conflicted file by taking the incoming version | `git checkout --theirs <file>` |
 
 ---
 
