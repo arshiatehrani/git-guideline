@@ -6,31 +6,31 @@ Commands are shown for **Windows PowerShell** first, with **macOS/Linux** equiva
 
 ## Which part do I need?
 
-| You are...                                                                                            | Start at                                                                                                                                                |
-| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Brand new to Git and GitHub, and only need your **company (organization) GitHub account**             | **[Part 1](#part-1-getting-started-with-git-and-github-single-organization-account)** — read it start to finish, then stop. That's everything you need. |
-| Already comfortable with Git, and need a **personal account and a work account on the same computer** | **[Part 2](#part-2-managing-personal-and-work-accounts-on-one-computer)**                                                                               |
-| Finished Part 1, and now _also_ need a personal account on this same computer (or vice versa)         | **[Part 2](#part-2-managing-personal-and-work-accounts-on-one-computer)** — it's designed to build on top of what Part 1 set up                         |
+| You are... | Start at |
+|---|---|
+| Brand new to Git and GitHub, and only need your **company (organization) GitHub account** | **[Part 1](#part-1-getting-started-with-git-and-github-single-organization-account)** — read it start to finish, then stop. That's everything you need. |
+| Already comfortable with Git, and need a **personal account and a work account on the same computer** | **[Part 2](#part-2-managing-personal-and-work-accounts-on-one-computer)** |
+| Finished Part 1, and now *also* need a personal account on this same computer (or vice versa) | **[Part 2](#part-2-managing-personal-and-work-accounts-on-one-computer)** — it's designed to build on top of what Part 1 set up |
 
 **Part 1 — Getting Started** covers:
 
-- Installing Git
-- Creating/joining your GitHub organization account
-- SSH key setup (one account)
-- Cloning, committing, pushing, and pulling
-- Branches and Pull Requests
-- Comparing two branches, and safely merging two that have both moved on
-- A command cheat sheet, common beginner errors, and a glossary
+* Installing Git
+* Creating/joining your GitHub organization account
+* SSH key setup (one account)
+* Cloning, committing, pushing, and pulling
+* Branches and Pull Requests
+* Comparing two branches, and safely merging two that have both moved on
+* A command cheat sheet, common beginner errors, and a glossary
 
 **Part 2 — Advanced** covers:
 
-- Setting up multiple SSH keys
-- Configuring SSH aliases (host aliases)
-- Connecting each key to the correct GitHub account
-- Cleaning up duplicate / cached SSH keys
-- Configuring Git commit identities per account (manually and automatically)
-- Pushing code to personal and work repositories
-- Syncing one project with multiple GitHub accounts
+* Setting up multiple SSH keys
+* Configuring SSH aliases (host aliases)
+* Connecting each key to the correct GitHub account
+* Cleaning up duplicate / cached SSH keys
+* Configuring Git commit identities per account (manually and automatically)
+* Pushing code to personal and work repositories
+* Syncing one project with multiple GitHub accounts
 
 ---
 
@@ -94,8 +94,8 @@ This part assumes **zero prior experience**. It is written for someone who only 
 
 Two different things, often confused:
 
-- **Git** is a program installed on _your_ computer. It keeps a complete history of every change made to a project's files, so nothing is ever truly lost and multiple people can work on the same project without overwriting each other.
-- **GitHub** is a website that hosts a copy of a Git project "in the cloud" so your team can share it, review each other's changes, and keep a backup that isn't just sitting on one laptop.
+* **Git** is a program installed on *your* computer. It keeps a complete history of every change made to a project's files, so nothing is ever truly lost and multiple people can work on the same project without overwriting each other.
+* **GitHub** is a website that hosts a copy of a Git project "in the cloud" so your team can share it, review each other's changes, and keep a backup that isn't just sitting on one laptop.
 
 A simple analogy: Git is an infinite "undo history" with save-points for your whole project folder. GitHub is the shared drive where your team's save-points live.
 
@@ -107,16 +107,16 @@ flowchart LR
 
 A few words you'll see constantly (full [Glossary](#18-glossary-of-terms) at the end of Part 1):
 
-| Term                    | Meaning                                                   |
-| ----------------------- | --------------------------------------------------------- |
-| **Repository ("repo")** | A project's folder plus its whole history                 |
-| **Commit**              | A saved snapshot of changes, with a message               |
-| **Branch**              | An independent line of work                               |
-| **Clone**               | Download a full copy of a repo to your computer           |
-| **Push**                | Upload your commits to GitHub                             |
-| **Pull**                | Download teammates' commits from GitHub                   |
-| **Remote**              | A copy of the repo hosted elsewhere (e.g. GitHub)         |
-| **Pull Request (PR)**   | A request on GitHub to merge your branch into the project |
+| Term | Meaning |
+|---|---|
+| **Repository ("repo")** | A project's folder plus its whole history |
+| **Commit** | A saved snapshot of changes, with a message |
+| **Branch** | An independent line of work |
+| **Clone** | Download a full copy of a repo to your computer |
+| **Push** | Upload your commits to GitHub |
+| **Pull** | Download teammates' commits from GitHub |
+| **Remote** | A copy of the repo hosted elsewhere (e.g. GitHub) |
+| **Pull Request (PR)** | A request on GitHub to merge your branch into the project |
 
 ---
 
@@ -194,8 +194,8 @@ If the folder doesn't exist or is empty, continue below. If you see `id_ed25519`
 ssh-keygen -t ed25519 -C "your.name@company.com"
 ```
 
-- `-t ed25519` — the recommended modern key type.
-- `-C "..."` — a label (typically your email) to help you identify the key later. It doesn't affect authentication.
+* `-t ed25519` — the recommended modern key type.
+* `-C "..."` — a label (typically your email) to help you identify the key later. It doesn't affect authentication.
 
 When prompted for a file location, just press **Enter** to accept the default (`~/.ssh/id_ed25519`). When prompted for a passphrase, set one — it's recommended and only asked for occasionally, since [ssh-agent](#step-3--start-ssh-agent-and-add-the-key) remembers it for you.
 
@@ -310,9 +310,9 @@ cd project-name
 
 What you now have:
 
-- A folder with all the project's files.
-- A hidden `.git` folder (the database of history — don't touch it directly).
-- A **remote** automatically named `origin`, pointing back to GitHub.
+* A folder with all the project's files.
+* A hidden `.git` folder (the database of history — don't touch it directly).
+* A **remote** automatically named `origin`, pointing back to GitHub.
 
 Verify:
 
@@ -334,14 +334,14 @@ flowchart LR
   GH -->|"git pull"| REPO
 ```
 
-| Command                   | What it does                                                                        |
-| ------------------------- | ----------------------------------------------------------------------------------- |
-| `git status`              | Shows what's changed and what's staged. **Run this constantly** — it's always safe. |
-| `git add <file>`          | Stages a specific file for the next commit                                          |
-| `git add .`               | Stages everything changed                                                           |
-| `git commit -m "message"` | Saves a snapshot of staged changes, with a description                              |
-| `git push`                | Uploads your commits to GitHub                                                      |
-| `git pull`                | Downloads and merges teammates' latest commits                                      |
+| Command | What it does |
+|---|---|
+| `git status` | Shows what's changed and what's staged. **Run this constantly** — it's always safe. |
+| `git add <file>` | Stages a specific file for the next commit |
+| `git add .` | Stages everything changed |
+| `git commit -m "message"` | Saves a snapshot of staged changes, with a description |
+| `git push` | Uploads your commits to GitHub |
+| `git pull` | Downloads and merges teammates' latest commits |
 
 **Good commit messages** are short, present-tense, and describe what changed and why — e.g. `"Fix typo in login error message"`, not `"changes"` or `"asdf"`.
 
@@ -372,7 +372,7 @@ git push
 
 A **branch** is an independent line of work. Using one per feature or fix keeps `main` always stable, so you can experiment freely without risking the working version of the project.
 
-> ⚠️ **Create your branch _before_ you start editing — not after.** If you edit and commit on `main` first and only _then_ create your branch, the new branch will carry those `main` commits along with it, which can confuse your history later. If this already happened to you, see the recipe in [Section 17](#17-common-beginner-errors-and-fixes).
+> ⚠️ **Create your branch *before* you start editing — not after.** If you edit and commit on `main` first and only *then* create your branch, the new branch will carry those `main` commits along with it, which can confuse your history later. If this already happened to you, see the recipe in [Section 17](#17-common-beginner-errors-and-fixes).
 
 ```mermaid
 flowchart TD
@@ -420,17 +420,17 @@ flowchart LR
   G --> H["branch now visible<br/>on GitHub"]
 ```
 
-| Command                                | What it does                                                                                  |
-| -------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `git branch`                           | Lists local branches (current one is marked)                                                  |
-| `git switch -c feature/my-change`      | Creates **and** switches to a new branch                                                      |
-| `git switch main`                      | Switches back to an existing branch                                                           |
+| Command | What it does |
+|---|---|
+| `git branch` | Lists local branches (current one is marked) |
+| `git switch -c feature/my-change` | Creates **and** switches to a new branch |
+| `git switch main` | Switches back to an existing branch |
 | `git push -u origin feature/my-change` | Pushes a new branch the first time (the `-u` links it, so plain `push`/`pull` work afterward) |
-| `git branch -d feature/my-change`      | Deletes a local branch (only if already merged)                                               |
+| `git branch -d feature/my-change` | Deletes a local branch (only if already merged) |
 
 > You may also see `git checkout -b feature/my-change` and `git checkout main` in older tutorials — they are the classic equivalents of `git switch -c` and `git switch`.
 
-> ⚠️ **Common typo:** `git push -u origin` takes the remote name first, then the branch — `git push -u <remote> <branch>`. Writing `git push -u your-branch-name` (leaving out `origin`) makes Git think the branch name _is_ the remote, and it fails with `fatal: 'your-branch-name' does not appear to be a git repository`.
+> ⚠️ **Common typo:** `git push -u origin` takes the remote name first, then the branch — `git push -u <remote> <branch>`. Writing `git push -u your-branch-name` (leaving out `origin`) makes Git think the branch name *is* the remote, and it fails with `fatal: 'your-branch-name' does not appear to be a git repository`.
 
 ### Confirming your branch exists
 
@@ -480,10 +480,10 @@ git branch                 # 3. confirm the * moved
 
 **If Git blocks the switch** because you have uncommitted changes in the way, you have two options:
 
-| Option                     | Command                                | Result                                                                                                                                                                                                                       |
-| -------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Commit the changes first   | `git add .` then `git commit -m "..."` | The changes become a permanent commit on your _current_ branch, then you're free to switch                                                                                                                                   |
-| Set them aside temporarily | `git stash`                            | Uncommitted changes are shelved (lifted out of your working files and saved separately); switch branches, do whatever you need, then run `git stash pop` back on the original branch to bring them back exactly as they were |
+| Option | Command | Result |
+|---|---|---|
+| Commit the changes first | `git add .` then `git commit -m "..."` | The changes become a permanent commit on your *current* branch, then you're free to switch |
+| Set them aside temporarily | `git stash` | Uncommitted changes are shelved (lifted out of your working files and saved separately); switch branches, do whatever you need, then run `git stash pop` back on the original branch to bring them back exactly as they were |
 
 ```mermaid
 flowchart LR
@@ -568,11 +568,11 @@ The same three commits are replayed one-by-one directly onto `main` — no merge
 
 ### Which one to pick
 
-| Strategy                  | `main` history after merge                   | Keeps individual commits?                 | CLI equivalent (if merging locally)                                      |
-| ------------------------- | -------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------ |
-| **Create a merge commit** | Branch shape preserved (fork + join)         | Yes, all of them, plus a new merge commit | `git merge feature-branch`                                               |
-| **Squash and merge**      | Linear — one new commit per PR               | No — combined into one                    | `git merge --squash feature-branch` then `git commit`                    |
-| **Rebase and merge**      | Linear — one commit per original, new hashes | Yes, each one individually                | `git rebase main` (run on the feature branch), then a fast-forward merge |
+| Strategy | `main` history after merge | Keeps individual commits? | CLI equivalent (if merging locally) |
+|---|---|---|---|
+| **Create a merge commit** | Branch shape preserved (fork + join) | Yes, all of them, plus a new merge commit | `git merge feature-branch` |
+| **Squash and merge** | Linear — one new commit per PR | No — combined into one | `git merge --squash feature-branch` then `git commit` |
+| **Rebase and merge** | Linear — one commit per original, new hashes | Yes, each one individually | `git rebase main` (run on the feature branch), then a fast-forward merge |
 
 Most teams — including most large tech companies (see [Beyond the Basics](#beyond-the-basics-how-professional-teams-work-at-scale)) — default to **Squash and merge**, since a clean, one-line-per-feature `main` history is easier to read, easier to bisect when hunting for a bug, and easier to revert. This is usually a **repository-wide setting** an admin picks once (Settings → General → Pull Requests), not something you choose per PR — if you only ever see one option, that's why.
 
@@ -580,7 +580,7 @@ Most teams — including most large tech companies (see [Beyond the Basics](#bey
 
 ## Merging Locally (Without a Pull Request)
 
-You _can_ merge a branch into `main` entirely from the command line, skipping GitHub's review step:
+You *can* merge a branch into `main` entirely from the command line, skipping GitHub's review step:
 
 ```mermaid
 flowchart LR
@@ -635,7 +635,7 @@ sequenceDiagram
     GH-->>Dev: Branch deleted, main updated
 ```
 
-This is the same loop covered in Steps 1–6 above — the diagram just shows all the moving parts (you, GitHub, automated checks, your reviewer) at once. See [Beyond the Basics](#beyond-the-basics-how-professional-teams-work-at-scale) below for what typically happens _after_ this point at larger companies.
+This is the same loop covered in Steps 1–6 above — the diagram just shows all the moving parts (you, GitHub, automated checks, your reviewer) at once. See [Beyond the Basics](#beyond-the-basics-how-professional-teams-work-at-scale) below for what typically happens *after* this point at larger companies.
 
 ---
 
@@ -663,8 +663,8 @@ flowchart LR
   end
 ```
 
-- **`git fetch`** — downloads new commits from GitHub and stores them under a "remote-tracking" name like `origin/main`, but leaves your own branch and working files completely alone. Safe to run anytime, purely informational — good for checking what's new before deciding what to do with it.
-- **`git pull`** — does a fetch, **and immediately merges** those commits into your current branch. This is what you'll use almost all the time.
+* **`git fetch`** — downloads new commits from GitHub and stores them under a "remote-tracking" name like `origin/main`, but leaves your own branch and working files completely alone. Safe to run anytime, purely informational — good for checking what's new before deciding what to do with it.
+* **`git pull`** — does a fetch, **and immediately merges** those commits into your current branch. This is what you'll use almost all the time.
 
 If Git says your branch is "behind," run `git pull`. If it says "ahead," you have local commits not yet pushed — run `git push`.
 
@@ -685,7 +685,7 @@ flowchart LR
   Y -->|"git switch teammates-branch"| L["Local copy of<br/>teammates-branch"]
 ```
 
-> **"Branch not found"?** If `git switch teammates-branch` can't find it, your local Git may not know about it yet. Run `git fetch origin` again, or force a full refresh with `git remote update origin --prune` (the `--prune` also cleans up references to branches that were deleted on GitHub). If it _still_ doesn't appear, [Section 14](#14-comparing-two-branches-line-by-line) has the full checklist — starting with `git ls-remote --heads origin`, which asks GitHub directly.
+> **"Branch not found"?** If `git switch teammates-branch` can't find it, your local Git may not know about it yet. Run `git fetch origin` again, or force a full refresh with `git remote update origin --prune` (the `--prune` also cleans up references to branches that were deleted on GitHub). If it *still* doesn't appear, [Section 14](#14-comparing-two-branches-line-by-line) has the full checklist — starting with `git ls-remote --heads origin`, which asks GitHub directly.
 
 ### Branching Off of a Teammate's Work
 
@@ -708,7 +708,7 @@ Your branch now contains everything from `teammates-branch` plus whatever you ad
 
 ### Updating a Branch You Already Have With a Teammate's New Commits
 
-Your branch already exists locally, and a teammate has since added more commits to _their_ branch that you now want. There are two very different ways to bring those in:
+Your branch already exists locally, and a teammate has since added more commits to *their* branch that you now want. There are two very different ways to bring those in:
 
 **Option A — Merge (safe, recommended): combine their new work with yours**
 
@@ -725,11 +725,11 @@ Both branches' commits end up combined — nothing from either side is lost. If 
 
 ### Common Pitfall: The Merge "Worked," But a Teammate's Changes Are Missing
 
-A very common experience: you run `git merge origin/teammates-branch`, it finishes with no error, but a file you both edited — README.md is the classic example — still only shows _your_ version, with nothing from theirs. The merge command didn't fail; something else happened to that specific file. The usual causes, roughly in order of likelihood:
+A very common experience: you run `git merge origin/teammates-branch`, it finishes with no error, but a file you both edited — README.md is the classic example — still only shows *your* version, with nothing from theirs. The merge command didn't fail; something else happened to that specific file. The usual causes, roughly in order of likelihood:
 
-1. **A conflict happened and got resolved in favor of "yours" without you fully noticing.** When both branches edit the same lines of the same file, Git can't guess which version is correct, so it pauses and asks you to decide (see [Section 13](#13-resolving-a-merge-conflict)). If you resolved it in an editor with buttons like "Accept Current Change" / "Accept Incoming Change" / "Accept Both Changes," clicking **Accept Current** (or its equivalent) keeps only _your_ version and discards theirs — for every conflicted section in that file. This is by far the most common cause of exactly what you described.
+1. **A conflict happened and got resolved in favor of "yours" without you fully noticing.** When both branches edit the same lines of the same file, Git can't guess which version is correct, so it pauses and asks you to decide (see [Section 13](#13-resolving-a-merge-conflict)). If you resolved it in an editor with buttons like "Accept Current Change" / "Accept Incoming Change" / "Accept Both Changes," clicking **Accept Current** (or its equivalent) keeps only *your* version and discards theirs — for every conflicted section in that file. This is by far the most common cause of exactly what you described.
 2. **`git checkout --ours <file>` was used** during the conflict — a command that explicitly keeps your side and throws away the incoming one (see [Section 13](#13-resolving-a-merge-conflict) for what this does and why it's easy to reach for by accident).
-3. **The fetch was stale.** If `git fetch origin` ran _before_ your teammate's latest push, `origin/teammates-branch` on your machine didn't contain their newest commit yet. Fetch again and confirm: `git log origin/teammates-branch -- README.md`.
+3. **The fetch was stale.** If `git fetch origin` ran *before* your teammate's latest push, `origin/teammates-branch` on your machine didn't contain their newest commit yet. Fetch again and confirm: `git log origin/teammates-branch -- README.md`.
 
 **Check what actually happened, right after merging (before you push):**
 
@@ -743,8 +743,8 @@ If that last command still shows a diff, your teammate's edits to that file didn
 
 **Fixing it without losing your own unique work** (a lighter-weight alternative to Option B below):
 
-- Haven't pushed yet, and want a clean redo? `git merge --abort` cancels the in-progress merge entirely, returning everything to exactly how it was before you ran `git merge` — then try again, reading each conflict carefully instead of accepting one side automatically.
-- Already committed the merge? Pull just that one file's content in as a fresh change: `git checkout origin/teammates-branch -- README.md`, then open it, add back anything from your own version that still needs to be there, and commit.
+* Haven't pushed yet, and want a clean redo? `git merge --abort` cancels the in-progress merge entirely, returning everything to exactly how it was before you ran `git merge` — then try again, reading each conflict carefully instead of accepting one side automatically.
+* Already committed the merge? Pull just that one file's content in as a fresh change: `git checkout origin/teammates-branch -- README.md`, then open it, add back anything from your own version that still needs to be there, and commit.
 
 **Option B — Reset (destructive): make your branch an exact mirror of theirs**
 
@@ -779,14 +779,14 @@ Always start with `git status` to see exactly what state you're in — every com
 
 ### Quick reference
 
-| Situation                                     | Command                                     | Notes                                                                                                    |
-| --------------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Unstage a file (keep the edits)               | `git restore --staged <file>`               | Safe                                                                                                     |
-| Discard uncommitted edits to a file           | `git restore <file>`                        | ⚠️ Cannot be undone — the edits are gone                                                                 |
-| Fix the last commit's message                 | `git commit --amend -m "corrected message"` | Only do this **before** pushing                                                                          |
-| View history                                  | `git log --oneline`                         | Safe, read-only                                                                                          |
-| Undo a commit that's already pushed/shared    | `git revert <commit-hash>`                  | Safe — adds a new commit that reverses the change, history stays intact                                  |
-| Cancel an in-progress merge/conflict entirely | `git merge --abort`                         | Safe — only works before you commit the merge; returns you to exactly how things were before you started |
+| Situation | Command | Notes |
+|---|---|---|
+| Unstage a file (keep the edits) | `git restore --staged <file>` | Safe |
+| Discard uncommitted edits to a file | `git restore <file>` | ⚠️ Cannot be undone — the edits are gone |
+| Fix the last commit's message | `git commit --amend -m "corrected message"` | Only do this **before** pushing |
+| View history | `git log --oneline` | Safe, read-only |
+| Undo a commit that's already pushed/shared | `git revert <commit-hash>` | Safe — adds a new commit that reverses the change, history stays intact |
+| Cancel an in-progress merge/conflict entirely | `git merge --abort` | Safe — only works before you commit the merge; returns you to exactly how things were before you started |
 
 ### What each command actually does
 
@@ -799,7 +799,7 @@ git status
 # modified:   report.py   <- back to unstaged, edits still there
 ```
 
-**`git restore <file>`** — throws away uncommitted edits and replaces the file with the last _committed_ version. ⚠️ Destructive: whatever you typed since the last commit is gone, with no undo. Only use it once you're certain you want those specific edits discarded.
+**`git restore <file>`** — throws away uncommitted edits and replaces the file with the last *committed* version. ⚠️ Destructive: whatever you typed since the last commit is gone, with no undo. Only use it once you're certain you want those specific edits discarded.
 
 **`git commit --amend`** — replaces your most recent commit with a new one. Run it alone to just edit the message, or `git add` more changes first to fold them into that same commit. It **rewrites** the commit (new hash), which is why it's only safe **before** you've pushed — amending a commit someone else already pulled creates two different histories and forces a `git push --force` to reconcile, which can overwrite their work. Not sure if you've pushed yet? `git status` will say "ahead of 'origin/main'" if you haven't.
 
@@ -822,9 +822,9 @@ flowchart LR
   D --> E
 ```
 
-- `git log -p -- path/to/file` — shows every commit that touched that file, with the actual diff each time. Read through until you spot the suspicious change.
-- `git blame path/to/file` — shows, line by line, which commit last changed each line. Great for "who touched this line, and when."
-- `git bisect` — when you have no idea which of many commits is the culprit, this binary-searches history for you instead of checking each one by hand:
+* `git log -p -- path/to/file` — shows every commit that touched that file, with the actual diff each time. Read through until you spot the suspicious change.
+* `git blame path/to/file` — shows, line by line, which commit last changed each line. Great for "who touched this line, and when."
+* `git bisect` — when you have no idea which of many commits is the culprit, this binary-searches history for you instead of checking each one by hand:
 
 ```powershell
 git bisect start
@@ -844,15 +844,15 @@ git bisect reset                # return to where you started, nothing is change
 
 Once you know the commit, you have several options — and it matters which one you pick, because they don't all treat your other, newer work the same way:
 
-| I want to...                                                        | Command                                                                                 | What happens to everything else                                                                                                                                                       |
-| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Just look at how a file used to read, without changing anything     | `git show <commit-hash>:path/to/file`                                                   | Nothing changes — this only prints the old file content to your screen                                                                                                                |
-| Browse the whole project as it looked at an old commit, temporarily | `git switch --detach <commit-hash>`                                                     | Nothing lost — a read-only "detached HEAD" view; `git switch main` brings you straight back                                                                                           |
-| Undo the change for good, keeping the history honest                | `git revert <bad-commit-hash>`                                                          | Nothing lost — adds a new commit undoing just that change; everything committed after it is untouched and stays                                                                       |
-| Bring back just one file's old content, as new work you can review  | `git checkout <commit-hash> -- path/to/file`, then `git status` to confirm, then commit | Only that one file changes; every other file and all history stays exactly as it was                                                                                                  |
-| Erase local commits that were never pushed, permanently             | `git reset --hard <commit-hash>`                                                        | ⚠️ Every commit after `<commit-hash>` becomes unreachable — for practical purposes, gone. (Technically recoverable briefly via `git reflog`, but don't rely on that as a safety net.) |
+| I want to... | Command | What happens to everything else |
+|---|---|---|
+| Just look at how a file used to read, without changing anything | `git show <commit-hash>:path/to/file` | Nothing changes — this only prints the old file content to your screen |
+| Browse the whole project as it looked at an old commit, temporarily | `git switch --detach <commit-hash>` | Nothing lost — a read-only "detached HEAD" view; `git switch main` brings you straight back |
+| Undo the change for good, keeping the history honest | `git revert <bad-commit-hash>` | Nothing lost — adds a new commit undoing just that change; everything committed after it is untouched and stays |
+| Bring back just one file's old content, as new work you can review | `git checkout <commit-hash> -- path/to/file`, then `git status` to confirm, then commit | Only that one file changes; every other file and all history stays exactly as it was |
+| Erase local commits that were never pushed, permanently | `git reset --hard <commit-hash>` | ⚠️ Every commit after `<commit-hash>` becomes unreachable — for practical purposes, gone. (Technically recoverable briefly via `git reflog`, but don't rely on that as a safety net.) |
 
-For anything already pushed, shared with teammates, or that you're even slightly unsure about, **`git revert` is almost always the right answer** — it's the only option here that's both permanent _and_ impossible to lose data with:
+For anything already pushed, shared with teammates, or that you're even slightly unsure about, **`git revert` is almost always the right answer** — it's the only option here that's both permanent *and* impossible to lose data with:
 
 ```
 Before:                                After: git revert d4e5f6
@@ -876,16 +876,16 @@ A `.gitignore` file tells Git to never track certain files — build output, dep
 
 Git reads `.gitignore` line by line. Each line is a **pattern**; any file or folder whose path matches a pattern is ignored.
 
-| Pattern          | Matches                                                                                   | Example                                                                        |
-| ---------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `filename.txt`   | A file/folder with that exact name, **anywhere** in the repo                              | ignores `filename.txt` at the root and in every subfolder                      |
-| `*.log`          | `*` matches any run of characters — matches by **extension**, anywhere                    | `error.log`, `src/debug.log`, `logs/2024/jan.log`                              |
-| `build/`         | A trailing `/` means "directories only"                                                   | ignores the whole `build` folder and everything inside it, anywhere it appears |
-| `/config.json`   | A **leading** `/` anchors the pattern to the repo root only                               | ignores `config.json` at the root, but not `src/config.json`                   |
-| `docs/*.pdf`     | PDFs directly inside `docs/`, not its subfolders                                          | matches `docs/report.pdf`, not `docs/old/report.pdf`                           |
-| `docs/**/*.pdf`  | `**` matches any depth of subfolders                                                      | matches both `docs/report.pdf` and `docs/old/archive/report.pdf`               |
-| `!important.log` | A leading `!` **un-ignores** a file that an earlier, broader pattern would otherwise hide | must appear _after_ the pattern it's an exception to                           |
-| `# comment`      | Lines starting with `#` are comments — ignored by Git                                     | for humans reading the file                                                    |
+| Pattern | Matches | Example |
+|---|---|---|
+| `filename.txt` | A file/folder with that exact name, **anywhere** in the repo | ignores `filename.txt` at the root and in every subfolder |
+| `*.log` | `*` matches any run of characters — matches by **extension**, anywhere | `error.log`, `src/debug.log`, `logs/2024/jan.log` |
+| `build/` | A trailing `/` means "directories only" | ignores the whole `build` folder and everything inside it, anywhere it appears |
+| `/config.json` | A **leading** `/` anchors the pattern to the repo root only | ignores `config.json` at the root, but not `src/config.json` |
+| `docs/*.pdf` | PDFs directly inside `docs/`, not its subfolders | matches `docs/report.pdf`, not `docs/old/report.pdf` |
+| `docs/**/*.pdf` | `**` matches any depth of subfolders | matches both `docs/report.pdf` and `docs/old/archive/report.pdf` |
+| `!important.log` | A leading `!` **un-ignores** a file that an earlier, broader pattern would otherwise hide | must appear *after* the pattern it's an exception to |
+| `# comment` | Lines starting with `#` are comments — ignored by Git | for humans reading the file |
 
 ### Yes — ignoring by file extension works exactly like you'd expect
 
@@ -928,19 +928,19 @@ data/*
 
 That last pair is a common trick: Git doesn't track empty folders at all, so teams add an empty `.gitkeep` file to force a folder to exist in the repo, then ignore everything else inside it.
 
-> ⚠️ **Gotcha:** negation (`!`) can't resurrect a file if the _folder_ itself was ignored with a trailing slash (`build/`) — Git won't even look inside an ignored folder to check for exceptions. If you need to un-ignore something inside a folder, ignore its _contents_ instead (`build/*`) rather than the folder itself (`build/`), as in the `data/*` example above.
+> ⚠️ **Gotcha:** negation (`!`) can't resurrect a file if the *folder* itself was ignored with a trailing slash (`build/`) — Git won't even look inside an ignored folder to check for exceptions. If you need to un-ignore something inside a folder, ignore its *contents* instead (`build/*`) rather than the folder itself (`build/`), as in the `data/*` example above.
 
 ### A few more things worth knowing
 
-- **`.gitignore` can live in any folder**, not just the root — one placed inside a subfolder only applies to that subfolder and below. Most projects just use a single one at the repo root.
-- **It only affects untracked files.** If a file was already committed before you added it to `.gitignore`, Git keeps tracking it — the pattern only stops _new_ files from being picked up. To stop tracking one that's already committed:
+* **`.gitignore` can live in any folder**, not just the root — one placed inside a subfolder only applies to that subfolder and below. Most projects just use a single one at the repo root.
+* **It only affects untracked files.** If a file was already committed before you added it to `.gitignore`, Git keeps tracking it — the pattern only stops *new* files from being picked up. To stop tracking one that's already committed:
 
 ```powershell
 git rm --cached <file>
 git commit -m "Stop tracking <file>"
 ```
 
-- **Personal junk (editor/OS files) doesn't have to go in the project's `.gitignore` at all.** To avoid adding your own tool's clutter (e.g. `.vscode/`, `.idea/`) to a shared file every teammate sees, set up a **global** gitignore just for your machine:
+* **Personal junk (editor/OS files) doesn't have to go in the project's `.gitignore` at all.** To avoid adding your own tool's clutter (e.g. `.vscode/`, `.idea/`) to a shared file every teammate sees, set up a **global** gitignore just for your machine:
 
 ```powershell
 git config --global core.excludesfile ~/.gitignore_global
@@ -948,7 +948,7 @@ git config --global core.excludesfile ~/.gitignore_global
 
 Then list your personal-only patterns in `~/.gitignore_global` — they apply to every repo on your computer without ever being committed anywhere.
 
-- **Don't write one from scratch.** [github.com/github/gitignore](https://github.com/github/gitignore) has ready-made templates for almost every language and framework. Check whether the project already has a `.gitignore` before adding your own — most do. Ask a teammate if you're unsure what belongs in it for your specific project.
+* **Don't write one from scratch.** [github.com/github/gitignore](https://github.com/github/gitignore) has ready-made templates for almost every language and framework. Check whether the project already has a `.gitignore` before adding your own — most do. Ask a teammate if you're unsure what belongs in it for your specific project.
 
 ---
 
@@ -983,7 +983,7 @@ git commit --no-edit
 
 ### Resolving an Entire File at Once: `--ours` and `--theirs`
 
-Sometimes you don't want to edit conflict markers by hand — you just want to pick one side's _entire_ version of a file:
+Sometimes you don't want to edit conflict markers by hand — you just want to pick one side's *entire* version of a file:
 
 ```powershell
 git checkout --ours README.md     # keep your current branch's version, discard the incoming one
@@ -994,7 +994,7 @@ git commit
 
 ⚠️ These **replace the whole file** with one side — they do not combine the two. If you actually wanted content from both (usually true for something like a README), don't use these directly; either edit the conflict markers by hand, or use `--ours`/`--theirs` as a starting point and then manually add back whatever you still need from the other side before committing.
 
-> **"Ours" and "theirs" swap meaning during a rebase.** During a normal `git merge` (or `git pull`), "ours" = your current branch, "theirs" = the branch being merged in — as used above. During a `git rebase`, it's reversed, since you're technically replaying _your_ commits onto _their_ history. If you ever reach for these flags during a rebase, double-check which side you're actually keeping first.
+> **"Ours" and "theirs" swap meaning during a rebase.** During a normal `git merge` (or `git pull`), "ours" = your current branch, "theirs" = the branch being merged in — as used above. During a `git rebase`, it's reversed, since you're technically replaying *your* commits onto *their* history. If you ever reach for these flags during a rebase, double-check which side you're actually keeping first.
 
 ### Changed Your Mind Mid-Conflict?
 
@@ -1029,12 +1029,12 @@ git branch -a               # list every branch your computer now knows about
 
 Reading the output of `git branch -a`:
 
-| Line                                 | What it means                                                                      |
-| ------------------------------------ | ---------------------------------------------------------------------------------- |
-| `* your-branch`                      | A **local** branch. The `*` marks the one you're on right now                      |
-| `main`                               | A local branch you have a working copy of                                          |
-| `remotes/origin/their-branch`        | A branch that exists **on GitHub**, already downloaded, but with no local copy yet |
-| `remotes/origin/HEAD -> origin/main` | Just a note that `main` is this repo's default branch                              |
+| Line | What it means |
+|---|---|
+| `* your-branch` | A **local** branch. The `*` marks the one you're on right now |
+| `main` | A local branch you have a working copy of |
+| `remotes/origin/their-branch` | A branch that exists **on GitHub**, already downloaded, but with no local copy yet |
+| `remotes/origin/HEAD -> origin/main` | Just a note that `main` is this repo's default branch |
 
 `git branch -r` shows only the remote ones, `git branch` only the local ones.
 
@@ -1077,12 +1077,12 @@ A colleague says they made a branch, but `git branch -r` doesn't list it. Ask Gi
 git ls-remote --heads origin
 ```
 
-| If the branch is…                             | Cause                                                          | Fix                                                            |
-| --------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| **Not** in that list                          | They never pushed it — it only exists on their machine         | Ask them to run `git push -u origin <branch-name>`             |
-| Not in that list, and they insist it's pushed | They pushed to a different remote (common with forks)          | Compare `git remote -v` with the URL they used                 |
-| In that list but not in `git branch -r`       | Your local copy is stale                                       | `git remote update origin --prune`, then `git branch -r` again |
-| Spelled slightly differently                  | Branch names are **case-sensitive**: `Feature/x` ≠ `feature/x` | Copy the exact name from `git ls-remote` output                |
+| If the branch is… | Cause | Fix |
+|---|---|---|
+| **Not** in that list | They never pushed it — it only exists on their machine | Ask them to run `git push -u origin <branch-name>` |
+| Not in that list, and they insist it's pushed | They pushed to a different remote (common with forks) | Compare `git remote -v` with the URL they used |
+| In that list but not in `git branch -r` | Your local copy is stale | `git remote update origin --prune`, then `git branch -r` again |
+| Spelled slightly differently | Branch names are **case-sensitive**: `Feature/x` ≠ `feature/x` | Copy the exact name from `git ls-remote` output |
 
 You can also just look: `https://github.com/<org>/<repo>/branches` lists everything that genuinely exists on GitHub.
 
@@ -1096,11 +1096,11 @@ flowchart LR
   A --> C["your commits"] --> YT["your-branch"]
 ```
 
-| Command                               | The question it answers                                                                                               |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `git diff their-branch your-branch`   | "How do the two branches differ **right now**?" — compares the two end states, which is what a merge has to reconcile |
-| `git diff their-branch...your-branch` | "What have **I** added since we split?" — ignores everything they did                                                 |
-| `git diff your-branch...their-branch` | "What have **they** added since we split?"                                                                            |
+| Command | The question it answers |
+|---|---|
+| `git diff their-branch your-branch` | "How do the two branches differ **right now**?" — compares the two end states, which is what a merge has to reconcile |
+| `git diff their-branch...your-branch` | "What have **I** added since we split?" — ignores everything they did |
+| `git diff your-branch...their-branch` | "What have **they** added since we split?" |
 
 Three dots is for reviewing one side's contribution; two dots is for seeing how the two file trees actually differ today. To find the split point itself:
 
@@ -1110,15 +1110,15 @@ git merge-base your-branch their-branch
 
 ## Step 4 — Ways to look at the difference
 
-| Goal                                           | Command                                        |
-| ---------------------------------------------- | ---------------------------------------------- |
-| Which files changed, and by how much           | `git diff --stat main your-branch`             |
-| Just the file names and their status (M/A/D)   | `git diff --name-status main your-branch`      |
-| One specific file                              | `git diff main your-branch -- path/to/file.py` |
-| Word-level rather than line-level highlighting | `git diff --color-words main your-branch`      |
-| Ignore whitespace-only differences             | `git diff --ignore-all-space main your-branch` |
-| Side by side in a real editor                  | `git difftool main your-branch`                |
-| The commit graph of both branches at once      | `git log --oneline --graph --all`              |
+| Goal | Command |
+|---|---|
+| Which files changed, and by how much | `git diff --stat main your-branch` |
+| Just the file names and their status (M/A/D) | `git diff --name-status main your-branch` |
+| One specific file | `git diff main your-branch -- path/to/file.py` |
+| Word-level rather than line-level highlighting | `git diff --color-words main your-branch` |
+| Ignore whitespace-only differences | `git diff --ignore-all-space main your-branch` |
+| Side by side in a real editor | `git difftool main your-branch` |
+| The commit graph of both branches at once | `git log --oneline --graph --all` |
 
 To make `git difftool` open VS Code:
 
@@ -1167,11 +1167,11 @@ If that prints **nothing**, there are no real changes. The differences are invis
 
 **Why it happens.** A `.gitattributes` file tells Git how to normalize line endings, and it often exists on only one branch. Switch to the branch that lacks it and your entire working copy reads as rewritten.
 
-| Do                                                                                       | Don't                                                                                             |
-| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Confirm with `git diff --ignore-all-space` that nothing real changed                     | **Commit while in this state** — you'd rewrite every file's line endings into the project history |
-| Discard the phantom changes with `git checkout -- .`                                     | Try to "fix" the files by hand                                                                    |
-| Get a `.gitattributes` containing `* text=auto` onto every branch, so it stops happening | Assume the branch is genuinely broken                                                             |
+| Do | Don't |
+|---|---|
+| Confirm with `git diff --ignore-all-space` that nothing real changed | **Commit while in this state** — you'd rewrite every file's line endings into the project history |
+| Discard the phantom changes with `git checkout -- .` | Try to "fix" the files by hand |
+| Get a `.gitattributes` containing `* text=auto` onto every branch, so it stops happening | Assume the branch is genuinely broken |
 
 > A related, harmless message: `warning: LF will be replaced by CRLF the next time Git touches it`. That's `.gitattributes` doing its job — Git stores LF internally and hands you CRLF on Windows. Nothing to fix.
 
@@ -1192,17 +1192,17 @@ The example running through this section: **their-branch** added new features, *
 
 ## Step 0 — Decide which direction to merge
 
-`git merge other-branch` always means _bring `other-branch` into the branch I'm standing on_. So pick your **integration branch** — the one you'll keep working on and eventually turn into a pull request — and merge the other into it.
+`git merge other-branch` always means *bring `other-branch` into the branch I'm standing on*. So pick your **integration branch** — the one you'll keep working on and eventually turn into a pull request — and merge the other into it.
 
 ```powershell
 git log --oneline --graph --all      # see how the two histories relate
 git merge-base your-branch their-branch   # the commit where they split
 ```
 
-| You want…                                           | Stand on       | Then run                 |
-| --------------------------------------------------- | -------------- | ------------------------ |
-| Their features, on top of your improvements         | `your-branch`  | `git merge their-branch` |
-| Your improvements delivered into their line of work | `their-branch` | `git merge your-branch`  |
+| You want… | Stand on | Then run |
+|---|---|---|
+| Their features, on top of your improvements | `your-branch` | `git merge their-branch` |
+| Your improvements delivered into their line of work | `their-branch` | `git merge your-branch` |
 
 > 💡 If you're not sure, merge **into your own branch**. Nothing is published until you push, and you keep full control of the result.
 
@@ -1233,21 +1233,21 @@ Deletion of directory 'output/run_2026-08-02' failed. Should I try again? (y/n)
 
 **What's happening.** Git is trying to remove a folder that doesn't belong to the branch you're moving to, and Windows won't let it, because another program is holding a file open inside.
 
-**What answering `n` actually does.** Git gives up on deleting it _from disk_, but records the change correctly in its own index. So the branch switch or merge succeeds, and you're left with **leftover files that don't belong to the branch you're now on**.
+**What answering `n` actually does.** Git gives up on deleting it *from disk*, but records the change correctly in its own index. So the branch switch or merge succeeds, and you're left with **leftover files that don't belong to the branch you're now on**.
 
-| Risk                             | Why it matters                                                   |
-| -------------------------------- | ---------------------------------------------------------------- |
+| Risk | Why it matters |
+|---|---|
 | `git add -A` on the wrong branch | Silently commits the other branch's leftover files into this one |
-| Any comparison you run           | Polluted by files that aren't really part of this branch         |
+| Any comparison you run | Polluted by files that aren't really part of this branch |
 
 **Usual culprits, most likely first:**
 
-| Cause                                                                              | Fix                                                                 |
-| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| A cloud sync client (OneDrive, Dropbox) holding handles on the folder              | Pause syncing, or keep repositories outside synced folders entirely |
-| A running program using files in the repo (`python.exe`, `node.exe`, a dev server) | Stop it, or close the terminal that started it                      |
-| VS Code, or a File Explorer window, sitting inside one of those subfolders         | Close them, or navigate somewhere else                              |
-| Antivirus scanning the folder                                                      | Usually resolves in a few seconds — try again                       |
+| Cause | Fix |
+|---|---|
+| A cloud sync client (OneDrive, Dropbox) holding handles on the folder | Pause syncing, or keep repositories outside synced folders entirely |
+| A running program using files in the repo (`python.exe`, `node.exe`, a dev server) | Stop it, or close the terminal that started it |
+| VS Code, or a File Explorer window, sitting inside one of those subfolders | Close them, or navigate somewhere else |
+| Antivirus scanning the folder | Usually resolves in a few seconds — try again |
 
 **Recovering afterwards:**
 
@@ -1274,11 +1274,11 @@ A tag is a permanent bookmark on the current commit. If anything goes wrong at a
 git reset --hard pre-merge-backup
 ```
 
-| Situation                           | Escape hatch                                                                 |
-| ----------------------------------- | ---------------------------------------------------------------------------- |
-| Mid-merge, conflicts look wrong     | `git merge --abort` — as if you never started                                |
-| Merge already committed, not pushed | `git reset --hard pre-merge-backup`                                          |
-| Already pushed                      | `git revert -m 1 <merge-commit>` — safe, adds a commit that undoes the merge |
+| Situation | Escape hatch |
+|---|---|
+| Mid-merge, conflicts look wrong | `git merge --abort` — as if you never started |
+| Merge already committed, not pushed | `git reset --hard pre-merge-backup` |
+| Already pushed | `git revert -m 1 <merge-commit>` — safe, adds a commit that undoes the merge |
 
 Delete the tag with `git tag -d pre-merge-backup` once you're happy. (Tags stay local unless you explicitly `git push origin --tags`.)
 
@@ -1290,10 +1290,10 @@ git merge their-branch
 
 Two kinds of line appear:
 
-| Output                                                | Meaning                                                                                            |
-| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `Auto-merging src/core/engine.py`                     | Both sides changed this file, in different places. Git combined them itself — **no action needed** |
-| `CONFLICT (content): Merge conflict in settings.json` | Both sides changed the **same lines**. You must decide                                             |
+| Output | Meaning |
+|---|---|
+| `Auto-merging src/core/engine.py` | Both sides changed this file, in different places. Git combined them itself — **no action needed** |
+| `CONFLICT (content): Merge conflict in settings.json` | Both sides changed the **same lines**. You must decide |
 
 The final line, `Automatic merge failed; fix conflicts and then commit the result`, is normal — it means "your turn", not "something broke".
 
@@ -1303,13 +1303,13 @@ The final line, `Automatic merge failed; fix conflicts and then commit the resul
 
 Two people extending the same file in different directions produce a conflict even though the changes don't actually contradict each other. See [Section 13](#13-resolving-a-merge-conflict) for the mechanics of editing conflict markers.
 
-| Kind of file                                                          | Usual resolution                                                                |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| Config or settings file where each side added a new block             | **Keep both** blocks                                                            |
-| A registry, list, or dispatch table each side extended                | **Keep both** entries                                                           |
-| Test file where each side added tests                                 | **Keep both**, then check the auto-merge didn't duplicate a shared closing line |
-| `.gitignore`                                                          | **Keep both** sets of rules                                                     |
-| A file one side deliberately rewrote (e.g. replacing hardcoded paths) | **Keep the rewrite**, then re-apply the other side's additions on top           |
+| Kind of file | Usual resolution |
+|---|---|
+| Config or settings file where each side added a new block | **Keep both** blocks |
+| A registry, list, or dispatch table each side extended | **Keep both** entries |
+| Test file where each side added tests | **Keep both**, then check the auto-merge didn't duplicate a shared closing line |
+| `.gitignore` | **Keep both** sets of rules |
+| A file one side deliberately rewrote (e.g. replacing hardcoded paths) | **Keep the rewrite**, then re-apply the other side's additions on top |
 
 > ⚠️ **Deletions are applied silently.** If their branch deleted a folder yours never touched, the merge removes it without asking — no conflict, no prompt. List what's being deleted before you commit, and decide on purpose:
 >
@@ -1390,7 +1390,7 @@ Your name and email address were configured automatically based
 on your username and hostname.
 ```
 
-Signing in through a browser (or with SSH keys, or GitHub CLI) proves to GitHub **that you're allowed to push**. That is _authentication_, and it's completely separate from **the name stamped on each commit**, which Git guessed from your Windows username and computer name because you never told it. [Section 19](#19-understanding-git-identity-vs-github-authentication) covers why these are two independent systems.
+Signing in through a browser (or with SSH keys, or GitHub CLI) proves to GitHub **that you're allowed to push**. That is *authentication*, and it's completely separate from **the name stamped on each commit**, which Git guessed from your Windows username and computer name because you never told it. [Section 19](#19-understanding-git-identity-vs-github-authentication) covers why these are two independent systems.
 
 The practical effect: your history ends up with two different "you", and GitHub may not link those commits to your profile at all. One-time fix:
 
@@ -1403,131 +1403,132 @@ Use the address GitHub knows about. To correct the most recent commit too (befor
 
 ## Recap: the whole sequence
 
-| #   | Step                                                    | Command                                       |
-| --- | ------------------------------------------------------- | --------------------------------------------- |
-| 0   | Choose the direction; stand on your integration branch  | `git switch your-branch`                      |
-| 1   | Clean tree, no leftovers                                | `git status --short`, `git clean -nd` → `-fd` |
-| 2   | Undo point                                              | `git tag pre-merge-backup`                    |
-| 3   | Merge                                                   | `git merge their-branch`                      |
-| 4   | Resolve — usually keep both sides                       | edit files, `git add <file>`                  |
-| 5   | Verify: no markers, review deletions, **run the tests** | `git diff --check`, `git status`              |
-| 6   | Commit, confirm two parents                             | `git commit`, `git log --oneline --graph -5`  |
-| 7   | Push                                                    | `git push origin your-branch`                 |
+| # | Step | Command |
+|---|---|---|
+| 0 | Choose the direction; stand on your integration branch | `git switch your-branch` |
+| 1 | Clean tree, no leftovers | `git status --short`, `git clean -nd` → `-fd` |
+| 2 | Undo point | `git tag pre-merge-backup` |
+| 3 | Merge | `git merge their-branch` |
+| 4 | Resolve — usually keep both sides | edit files, `git add <file>` |
+| 5 | Verify: no markers, review deletions, **run the tests** | `git diff --check`, `git status` |
+| 6 | Commit, confirm two parents | `git commit`, `git log --oneline --graph -5` |
+| 7 | Push | `git push origin your-branch` |
 
 ### Related: moving a repository folder
 
 Git itself doesn't care where a repository lives — move the folder and everything still works, because Git only ever uses paths relative to the `.git` directory. What breaks is **everything else that recorded an absolute path**:
 
-- **Python virtual environments** bake the full path into `pyvenv.cfg` and every launcher in `Scripts/`. After a move, `pip` fails with `Unable to create process using "<old path>\python.exe"`. `venv/` is normally in `.gitignore`, so just rebuild it: delete the folder, `python -m venv venv`, reinstall.
-- **Editor and tool settings** that stored absolute paths need updating by hand.
-- **Very long paths, spaces, or commas in a folder name** cause silent failures in some engineering tools. Somewhere short like `C:\dev\project` avoids a whole class of Windows problems.
-- A folder created from a different operating system can carry a name Windows can't legally represent — Git shows it escaped, like `C\357\200\272\357\201\234work`, and `git clean` fails on it with `Permission denied` or `Invalid path`. Windows can't delete it either; remove it from the environment that created it.
+* **Python virtual environments** bake the full path into `pyvenv.cfg` and every launcher in `Scripts/`. After a move, `pip` fails with `Unable to create process using "<old path>\python.exe"`. `venv/` is normally in `.gitignore`, so just rebuild it: delete the folder, `python -m venv venv`, reinstall.
+* **Editor and tool settings** that stored absolute paths need updating by hand.
+* **Very long paths, spaces, or commas in a folder name** cause silent failures in some engineering tools. Somewhere short like `C:\dev\project` avoids a whole class of Windows problems.
+* A folder created from a different operating system can carry a name Windows can't legally represent — Git shows it escaped, like `C\357\200\272\357\201\234work`, and `git clean` fails on it with `Permission denied` or `Invalid path`. Windows can't delete it either; remove it from the environment that created it.
 
 ---
+
 
 # 16. Git and GitHub Cheat Sheet
 
 **Setup & Identity**
 
-| Task                   | Command                                            |
-| ---------------------- | -------------------------------------------------- |
-| Check Git is installed | `git --version`                                    |
-| Set your name (once)   | `git config --global user.name "Your Name"`        |
-| Set your email (once)  | `git config --global user.email "you@company.com"` |
-| View your settings     | `git config --global --list`                       |
-| Test GitHub connection | `ssh -T git@github.com`                            |
+| Task | Command |
+|---|---|
+| Check Git is installed | `git --version` |
+| Set your name (once) | `git config --global user.name "Your Name"` |
+| Set your email (once) | `git config --global user.email "you@company.com"` |
+| View your settings | `git config --global --list` |
+| Test GitHub connection | `ssh -T git@github.com` |
 
 **Getting a Repository**
 
-| Task                   | Command                                 |
-| ---------------------- | --------------------------------------- |
+| Task | Command |
+|---|---|
 | Clone an existing repo | `git clone git@github.com:org/repo.git` |
-| Check remotes          | `git remote -v`                         |
+| Check remotes | `git remote -v` |
 
 **Everyday Workflow**
 
-| Task                    | Command                   |
-| ----------------------- | ------------------------- |
-| See what changed        | `git status`              |
-| Stage a file            | `git add <file>`          |
-| Stage everything        | `git add .`               |
-| Commit staged changes   | `git commit -m "message"` |
-| Upload commits          | `git push`                |
-| Download latest changes | `git pull`                |
-| View history            | `git log --oneline`       |
+| Task | Command |
+|---|---|
+| See what changed | `git status` |
+| Stage a file | `git add <file>` |
+| Stage everything | `git add .` |
+| Commit staged changes | `git commit -m "message"` |
+| Upload commits | `git push` |
+| Download latest changes | `git pull` |
+| View history | `git log --oneline` |
 
 **Branches**
 
-| Task                                                  | Command                                |
-| ----------------------------------------------------- | -------------------------------------- |
-| List local branches                                   | `git branch`                           |
-| List remote branches                                  | `git branch -r`                        |
-| List all branches (local + remote)                    | `git branch -a`                        |
-| Create + switch to new branch                         | `git switch -c branch-name`            |
-| Switch branch                                         | `git switch branch-name`               |
-| Push a new branch the first time                      | `git push -u origin branch-name`       |
-| Merge a branch into your current branch               | `git merge branch-name`                |
-| Visualize branch history                              | `git log --oneline --graph --all`      |
-| Delete a local branch                                 | `git branch -d branch-name`            |
-| Delete a remote branch                                | `git push origin --delete branch-name` |
-| Check for new branches/commits without changing files | `git fetch origin`                     |
-| Refresh + clean up deleted remote branches            | `git remote update origin --prune`     |
-| Shelve uncommitted changes temporarily                | `git stash`                            |
-| Bring shelved changes back                            | `git stash pop`                        |
+| Task | Command |
+|---|---|
+| List local branches | `git branch` |
+| List remote branches | `git branch -r` |
+| List all branches (local + remote) | `git branch -a` |
+| Create + switch to new branch | `git switch -c branch-name` |
+| Switch branch | `git switch branch-name` |
+| Push a new branch the first time | `git push -u origin branch-name` |
+| Merge a branch into your current branch | `git merge branch-name` |
+| Visualize branch history | `git log --oneline --graph --all` |
+| Delete a local branch | `git branch -d branch-name` |
+| Delete a remote branch | `git push origin --delete branch-name` |
+| Check for new branches/commits without changing files | `git fetch origin` |
+| Refresh + clean up deleted remote branches | `git remote update origin --prune` |
+| Shelve uncommitted changes temporarily | `git stash` |
+| Bring shelved changes back | `git stash pop` |
 
 **Comparing Branches & Combining Work** — [Section 14](#14-comparing-two-branches-line-by-line), [Section 15](#15-combining-two-diverged-branches-safely)
 
-| Task                                               | Command                                         |
-| -------------------------------------------------- | ----------------------------------------------- |
-| Ask GitHub which branches really exist             | `git ls-remote --heads origin`                  |
-| Which files differ between two branches            | `git diff --stat main your-branch`              |
-| What _your_ branch added since the split           | `git diff main...your-branch`                   |
-| Find where two branches split                      | `git merge-base main your-branch`               |
-| Compare side by side in an editor                  | `git difftool main your-branch`                 |
-| Compare ignoring whitespace / line endings         | `git diff --ignore-all-space main your-branch`  |
-| Check out a second branch into its own folder      | `git worktree add ..\project-v2 other-branch`   |
-| Remove that folder when done                       | `git worktree remove ..\project-v2`             |
-| Preview which untracked files a clean would delete | `git clean -nd`                                 |
-| Actually delete them ⚠️                            | `git clean -fd`                                 |
-| Mark an undo point before a big merge              | `git tag pre-merge-backup`                      |
-| Roll all the way back to it (before pushing) ⚠️    | `git reset --hard pre-merge-backup`             |
-| Stage a merge but don't commit it yet              | `git merge --no-commit --no-ff other-branch`    |
-| List files this merge will delete                  | `git diff --cached --diff-filter=D --name-only` |
-| Check for leftover conflict markers                | `git diff --check`                              |
-| Confirm a commit really is a merge (two parents)   | `git show --no-patch --format="%h %p %s" HEAD`  |
-| Undo a merge that's already pushed                 | `git revert -m 1 <merge-commit>`                |
+| Task | Command |
+|---|---|
+| Ask GitHub which branches really exist | `git ls-remote --heads origin` |
+| Which files differ between two branches | `git diff --stat main your-branch` |
+| What *your* branch added since the split | `git diff main...your-branch` |
+| Find where two branches split | `git merge-base main your-branch` |
+| Compare side by side in an editor | `git difftool main your-branch` |
+| Compare ignoring whitespace / line endings | `git diff --ignore-all-space main your-branch` |
+| Check out a second branch into its own folder | `git worktree add ..\project-v2 other-branch` |
+| Remove that folder when done | `git worktree remove ..\project-v2` |
+| Preview which untracked files a clean would delete | `git clean -nd` |
+| Actually delete them ⚠️ | `git clean -fd` |
+| Mark an undo point before a big merge | `git tag pre-merge-backup` |
+| Roll all the way back to it (before pushing) ⚠️ | `git reset --hard pre-merge-backup` |
+| Stage a merge but don't commit it yet | `git merge --no-commit --no-ff other-branch` |
+| List files this merge will delete | `git diff --cached --diff-filter=D --name-only` |
+| Check for leftover conflict markers | `git diff --check` |
+| Confirm a commit really is a merge (two parents) | `git show --no-patch --format="%h %p %s" HEAD` |
+| Undo a merge that's already pushed | `git revert -m 1 <merge-commit>` |
 
 **Undo / Fix**
 
-| Task                                                     | Command                               |
-| -------------------------------------------------------- | ------------------------------------- |
-| Unstage a file                                           | `git restore --staged <file>`         |
-| Discard uncommitted changes to a file ⚠️                 | `git restore <file>`                  |
-| Fix last commit message (before push)                    | `git commit --amend -m "new message"` |
-| Undo a pushed commit safely                              | `git revert <commit-hash>`            |
-| Cancel an in-progress merge conflict                     | `git merge --abort`                   |
-| Resolve a conflicted file by keeping your version        | `git checkout --ours <file>`          |
-| Resolve a conflicted file by taking the incoming version | `git checkout --theirs <file>`        |
+| Task | Command |
+|---|---|
+| Unstage a file | `git restore --staged <file>` |
+| Discard uncommitted changes to a file ⚠️ | `git restore <file>` |
+| Fix last commit message (before push) | `git commit --amend -m "new message"` |
+| Undo a pushed commit safely | `git revert <commit-hash>` |
+| Cancel an in-progress merge conflict | `git merge --abort` |
+| Resolve a conflicted file by keeping your version | `git checkout --ours <file>` |
+| Resolve a conflicted file by taking the incoming version | `git checkout --theirs <file>` |
 
 ---
 
 # 17. Common Beginner Errors and Fixes
 
-| Message                                                                                                                | What it means                                                                                                                                                                                                                                         | Fix                                                                                                                                           |
-| ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fatal: not a git repository (or any of the parent directories): .git`                                                 | You're not inside a cloned/initialized project folder                                                                                                                                                                                                 | `cd` into the project folder — see [Section 6](#6-cloning-your-first-repository)                                                              |
-| `Please tell me who you are`                                                                                           | Git doesn't know your name/email yet                                                                                                                                                                                                                  | Set your identity — [Section 5](#5-setting-your-git-identity)                                                                                 |
-| `Permission denied (publickey)`                                                                                        | GitHub doesn't recognize your SSH key                                                                                                                                                                                                                 | Redo SSH setup — [Section 4](#4-setting-up-ssh-authentication)                                                                                |
-| `fatal: The current branch has no upstream branch`                                                                     | This branch has never been pushed before                                                                                                                                                                                                              | Run `git push -u origin branch-name` once                                                                                                     |
-| `Updates were rejected because the remote contains work that you do not have locally`                                  | A teammate pushed changes you don't have yet                                                                                                                                                                                                          | `git pull`, then push again                                                                                                                   |
-| `fatal: 'your-branch-name' does not appear to be a git repository` after `git push -u your-branch-name`                | You left out the remote name — Git read your branch name as the remote instead                                                                                                                                                                        | Use `git push -u origin your-branch-name`. The syntax is `git push -u <remote> <branch>`; `origin` is almost always the remote                |
-| `Your name and email address were configured automatically based on your username and hostname` (shown after a commit) | You committed before setting your Git identity — Git guessed values GitHub won't recognize as you. Signing in through a browser does **not** set this; it's a separate system ([Section 19](#19-understanding-git-identity-vs-github-authentication)) | Set your identity explicitly — [Section 5](#5-setting-your-git-identity). Fix a commit already made with `git commit --amend --reset-author`  |
-| Conflict markers (`<<<<<<<`) appear in a file                                                                          | Two people edited the same lines                                                                                                                                                                                                                      | See [Section 13](#13-resolving-a-merge-conflict)                                                                                              |
-| `Deletion of directory '<name>' failed. Should I try again? (y/n)`                                                     | Windows won't let Git delete a folder because a program is holding a file open in it                                                                                                                                                                  | Answer `n`, close editors / Explorer / cloud sync, then clean up — [Section 15](#15-combining-two-diverged-branches-safely)                   |
-| Hundreds of files show as modified right after switching branches, and you touched none of them                        | Line-ending (CRLF vs LF) differences, not real changes                                                                                                                                                                                                | Confirm with `git diff --stat --ignore-all-space`; if it's empty, `git checkout -- .` — [Section 14](#14-comparing-two-branches-line-by-line) |
-| `fatal: Invalid path '<path>': No such file or directory` during `git clean`                                           | A folder name contains characters Windows can't represent — usually created from a different operating system                                                                                                                                         | Delete it from the environment that created it — [Section 15](#15-combining-two-diverged-branches-safely)                                     |
-| A colleague's branch doesn't appear in `git branch -r` after fetching                                                  | Usually it was never pushed, or was pushed to a different remote                                                                                                                                                                                      | `git ls-remote --heads origin` tells you what's really there — [Section 14](#14-comparing-two-branches-line-by-line)                          |
-| A commit's message describes a huge merge, but it contains one unrelated file                                          | The merge was already committed and the long commit command got run a second time                                                                                                                                                                     | `git commit --amend -m "..."` to fix the message, before pushing — [Section 15](#15-combining-two-diverged-branches-safely)                   |
+| Message | What it means | Fix |
+|---|---|---|
+| `fatal: not a git repository (or any of the parent directories): .git` | You're not inside a cloned/initialized project folder | `cd` into the project folder — see [Section 6](#6-cloning-your-first-repository) |
+| `Please tell me who you are` | Git doesn't know your name/email yet | Set your identity — [Section 5](#5-setting-your-git-identity) |
+| `Permission denied (publickey)` | GitHub doesn't recognize your SSH key | Redo SSH setup — [Section 4](#4-setting-up-ssh-authentication) |
+| `fatal: The current branch has no upstream branch` | This branch has never been pushed before | Run `git push -u origin branch-name` once |
+| `Updates were rejected because the remote contains work that you do not have locally` | A teammate pushed changes you don't have yet | `git pull`, then push again |
+| `fatal: 'your-branch-name' does not appear to be a git repository` after `git push -u your-branch-name` | You left out the remote name — Git read your branch name as the remote instead | Use `git push -u origin your-branch-name`. The syntax is `git push -u <remote> <branch>`; `origin` is almost always the remote |
+| `Your name and email address were configured automatically based on your username and hostname` (shown after a commit) | You committed before setting your Git identity — Git guessed values GitHub won't recognize as you. Signing in through a browser does **not** set this; it's a separate system ([Section 19](#19-understanding-git-identity-vs-github-authentication)) | Set your identity explicitly — [Section 5](#5-setting-your-git-identity). Fix a commit already made with `git commit --amend --reset-author` |
+| Conflict markers (`<<<<<<<`) appear in a file | Two people edited the same lines | See [Section 13](#13-resolving-a-merge-conflict) |
+| `Deletion of directory '<name>' failed. Should I try again? (y/n)` | Windows won't let Git delete a folder because a program is holding a file open in it | Answer `n`, close editors / Explorer / cloud sync, then clean up — [Section 15](#15-combining-two-diverged-branches-safely) |
+| Hundreds of files show as modified right after switching branches, and you touched none of them | Line-ending (CRLF vs LF) differences, not real changes | Confirm with `git diff --stat --ignore-all-space`; if it's empty, `git checkout -- .` — [Section 14](#14-comparing-two-branches-line-by-line) |
+| `fatal: Invalid path '<path>': No such file or directory` during `git clean` | A folder name contains characters Windows can't represent — usually created from a different operating system | Delete it from the environment that created it — [Section 15](#15-combining-two-diverged-branches-safely) |
+| A colleague's branch doesn't appear in `git branch -r` after fetching | Usually it was never pushed, or was pushed to a different remote | `git ls-remote --heads origin` tells you what's really there — [Section 14](#14-comparing-two-branches-line-by-line) |
+| A commit's message describes a huge merge, but it contains one unrelated file | The merge was already committed and the long commit command got run a second time | `git commit --amend -m "..."` to fix the message, before pushing — [Section 15](#15-combining-two-diverged-branches-safely) |
 
 ### "I accidentally committed directly to `main` instead of a branch"
 
@@ -1546,35 +1547,35 @@ Your commits are now safely on `feature/oops`, and `main` matches GitHub again. 
 
 # 18. Glossary of Terms
 
-- **Repository ("repo")** — a project's folder plus its entire history, tracked by Git.
-- **Clone** — download a full copy of a repository (including history) to your computer.
-- **Commit** — a saved snapshot of changes, with a message describing what changed.
-- **Branch** — an independent line of work, so you can make changes without affecting `main`.
-- **main** — the default/primary branch, usually the "official" version of the project.
-- **Merge** — combining the changes from one branch into another.
-- **Remote** — a version of the repository hosted elsewhere (e.g. on GitHub).
-- **origin** — the default name Git gives to the remote you cloned from.
-- **Push** — upload your local commits to a remote (GitHub).
-- **Pull** — download and merge commits from a remote into your local branch.
-- **Fetch** — check the remote for new commits without merging them yet.
-- **Stash** — a temporary shelf for uncommitted changes, so you can switch branches with a clean working directory and bring them back later with `git stash pop`.
-- **Fork** — your own copy of someone else's repository, under your own account.
-- **Pull Request (PR)** — a request on GitHub to merge one branch into another, with room for review and discussion.
-- **Staging area** — the "waiting area" for changes you've `git add`-ed but not yet committed.
-- **Working directory** — the actual files on your computer, as you see them in your editor.
-- **HEAD** — a pointer to whatever commit/branch you currently have checked out.
-- **Checkout / Switch** — move to a different branch (or restore files to a prior state).
-- **.gitignore** — a file listing things Git should never track (e.g. build output, secrets).
-- **SSH key** — a pair of cryptographic files that let your computer prove its identity to GitHub without a password.
-- **ssh-agent** — a background helper that holds your unlocked SSH key so you don't retype your passphrase constantly.
-- **Merge conflict** — when Git can't automatically combine two changes to the same lines and needs a human decision.
-- **Upstream** — the remote branch a local branch is linked to for push/pull.
-- **Merge base** — the commit where two branches last had identical content, i.e. the point they split from.
-- **Tag** — a permanent, human-readable bookmark on one specific commit. Handy as an undo point before a risky merge.
-- **Worktree** — an extra folder checked out to a different branch of the same repository, so you can have two branches on disk at once.
-- **Tracking branch** — a local branch linked to one on GitHub (e.g. `main` ↔ `origin/main`), which is what lets plain `git pull` and `git push` know where to go.
-- **Untracked file** — a file in your folder that Git isn't following at all. `git clean` deletes these; nothing else does.
-- **.gitattributes** — a file telling Git how to treat certain files, most often normalizing line endings (`* text=auto`) so Windows and Linux users don't see whole files as rewritten.
+* **Repository ("repo")** — a project's folder plus its entire history, tracked by Git.
+* **Clone** — download a full copy of a repository (including history) to your computer.
+* **Commit** — a saved snapshot of changes, with a message describing what changed.
+* **Branch** — an independent line of work, so you can make changes without affecting `main`.
+* **main** — the default/primary branch, usually the "official" version of the project.
+* **Merge** — combining the changes from one branch into another.
+* **Remote** — a version of the repository hosted elsewhere (e.g. on GitHub).
+* **origin** — the default name Git gives to the remote you cloned from.
+* **Push** — upload your local commits to a remote (GitHub).
+* **Pull** — download and merge commits from a remote into your local branch.
+* **Fetch** — check the remote for new commits without merging them yet.
+* **Stash** — a temporary shelf for uncommitted changes, so you can switch branches with a clean working directory and bring them back later with `git stash pop`.
+* **Fork** — your own copy of someone else's repository, under your own account.
+* **Pull Request (PR)** — a request on GitHub to merge one branch into another, with room for review and discussion.
+* **Staging area** — the "waiting area" for changes you've `git add`-ed but not yet committed.
+* **Working directory** — the actual files on your computer, as you see them in your editor.
+* **HEAD** — a pointer to whatever commit/branch you currently have checked out.
+* **Checkout / Switch** — move to a different branch (or restore files to a prior state).
+* **.gitignore** — a file listing things Git should never track (e.g. build output, secrets).
+* **SSH key** — a pair of cryptographic files that let your computer prove its identity to GitHub without a password.
+* **ssh-agent** — a background helper that holds your unlocked SSH key so you don't retype your passphrase constantly.
+* **Merge conflict** — when Git can't automatically combine two changes to the same lines and needs a human decision.
+* **Upstream** — the remote branch a local branch is linked to for push/pull.
+* **Merge base** — the commit where two branches last had identical content, i.e. the point they split from.
+* **Tag** — a permanent, human-readable bookmark on one specific commit. Handy as an undo point before a risky merge.
+* **Worktree** — an extra folder checked out to a different branch of the same repository, so you can have two branches on disk at once.
+* **Tracking branch** — a local branch linked to one on GitHub (e.g. `main` ↔ `origin/main`), which is what lets plain `git pull` and `git push` know where to go.
+* **Untracked file** — a file in your folder that Git isn't following at all. `git clean` deletes these; nothing else does.
+* **.gitattributes** — a file telling Git how to treat certain files, most often normalizing line endings (`* text=auto`) so Windows and Linux users don't see whole files as rewritten.
 
 That's everything you need for day-to-day work with your organization's repositories. The section below is optional context on how this same workflow scales up at large engineering organizations. After that, Part 2 covers adding a second (personal) GitHub account on this same computer.
 
@@ -1588,18 +1589,18 @@ Everything above is the real workflow — professional engineering organizations
 
 A common point of confusion: you `git push` your branch to GitHub, so why is it called a **Pull Request** instead of a "Push Request"?
 
-| Term                                                        | Why it's called that                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Push**                                                    | You're uploading your commits _outward_ — from your machine to the remote.                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| **Pull**                                                    | You're downloading commits _inward_ — from the remote to your machine.                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| **Pull Request**                                            | This predates GitHub. In the early Git/Linux-kernel workflow, a contributor would ask a maintainer to `git pull` changes from their branch into the official repository — Git even has a literal `git request-pull` command for generating that request. The name describes the **maintainer's** action (they pull your work in), not yours. You push your branch to a remote either way — the "pull" in the name refers to what happens on the receiving end, not what you personally typed. |
-| **Merge Request** (GitLab's name for the identical feature) | Describes the _result_ (a merge) instead of the historical mechanism — same feature, different naming philosophy. Bitbucket and Azure DevOps both stuck with "Pull Request."                                                                                                                                                                                                                                                                                                                  |
-| **Fork**                                                    | A "fork in the road" — your own independent copy of someone else's repository, under your account.                                                                                                                                                                                                                                                                                                                                                                                            |
-| **Clone**                                                   | An exact copy, including full history — like a biological clone.                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| **origin**                                                  | Just the conventional default name Git gives the remote you cloned from. You can rename it; almost nobody does.                                                                                                                                                                                                                                                                                                                                                                               |
-| **HEAD**                                                    | A pointer to "where you currently are" in the history — the term predates Git, inherited from older version control systems where it meant the tip of a branch.                                                                                                                                                                                                                                                                                                                               |
-| **main** (formerly `master`)                                | GitHub, GitLab, and most of the industry renamed the default branch from `master` to `main` around 2020, for more inclusive terminology. Older repos and tutorials still say `master`.                                                                                                                                                                                                                                                                                                        |
-| **git**                                                     | Named by its creator, Linus Torvalds, after — by his own joking admission — British slang for an unpleasant person: _"I'm an egotistical bastard, and I name all my projects after myself. First 'Linux', now 'git'."_                                                                                                                                                                                                                                                                        |
+| Term | Why it's called that |
+|---|---|
+| **Push** | You're uploading your commits *outward* — from your machine to the remote. |
+| **Pull** | You're downloading commits *inward* — from the remote to your machine. |
+| **Pull Request** | This predates GitHub. In the early Git/Linux-kernel workflow, a contributor would ask a maintainer to `git pull` changes from their branch into the official repository — Git even has a literal `git request-pull` command for generating that request. The name describes the **maintainer's** action (they pull your work in), not yours. You push your branch to a remote either way — the "pull" in the name refers to what happens on the receiving end, not what you personally typed. |
+| **Merge Request** (GitLab's name for the identical feature) | Describes the *result* (a merge) instead of the historical mechanism — same feature, different naming philosophy. Bitbucket and Azure DevOps both stuck with "Pull Request." |
+| **Fork** | A "fork in the road" — your own independent copy of someone else's repository, under your account. |
+| **Clone** | An exact copy, including full history — like a biological clone. |
+| **origin** | Just the conventional default name Git gives the remote you cloned from. You can rename it; almost nobody does. |
+| **HEAD** | A pointer to "where you currently are" in the history — the term predates Git, inherited from older version control systems where it meant the tip of a branch. |
+| **main** (formerly `master`) | GitHub, GitLab, and most of the industry renamed the default branch from `master` to `main` around 2020, for more inclusive terminology. Older repos and tutorials still say `master`. |
+| **git** | Named by its creator, Linus Torvalds, after — by his own joking admission — British slang for an unpleasant person: *"I'm an egotistical bastard, and I name all my projects after myself. First 'Linux', now 'git'."* |
 
 ## The Full Lifecycle of a Change
 
@@ -1623,19 +1624,19 @@ flowchart TD
   MONITOR -->|"regression"| ROLLBACK["Rollback, or disable feature flag"]
 ```
 
-The part beginner tutorials usually stop at — "Merge" — is roughly the _midpoint_ of this process at a company with real production traffic, not the end.
+The part beginner tutorials usually stop at — "Merge" — is roughly the *midpoint* of this process at a company with real production traffic, not the end.
 
 ## Git-flow vs. Trunk-Based Development
 
 Two competing philosophies for how branches map to releases:
 
-|                                  | Git-flow (traditional)                                                    | Trunk-Based Development (most modern "big tech")          |
-| -------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------- |
-| Branch lifespan                  | Long-lived: `main`, `develop`, `feature/*`, `release/*`, `hotfix/*`       | Hours to a couple of days, then merged                    |
-| How `main` gets updated          | Only at release time, via `release` branches                              | Continuously — many merges a day, from every engineer     |
-| How unfinished work stays hidden | Kept isolated on a feature branch until ready                             | Merged to `main` anyway, hidden behind a **feature flag** |
-| Best suited for                  | Versioned software with a slower release cadence (desktop apps, firmware) | Continuously deployed web services, large monorepos       |
-| Roughly used by                  | Many traditional enterprises, some packaged-software teams                | Google, Meta, most modern SaaS engineering orgs           |
+| | Git-flow (traditional) | Trunk-Based Development (most modern "big tech") |
+|---|---|---|
+| Branch lifespan | Long-lived: `main`, `develop`, `feature/*`, `release/*`, `hotfix/*` | Hours to a couple of days, then merged |
+| How `main` gets updated | Only at release time, via `release` branches | Continuously — many merges a day, from every engineer |
+| How unfinished work stays hidden | Kept isolated on a feature branch until ready | Merged to `main` anyway, hidden behind a **feature flag** |
+| Best suited for | Versioned software with a slower release cadence (desktop apps, firmware) | Continuously deployed web services, large monorepos |
+| Roughly used by | Many traditional enterprises, some packaged-software teams | Google, Meta, most modern SaaS engineering orgs |
 
 ```mermaid
 flowchart LR
@@ -1649,24 +1650,24 @@ flowchart LR
 
 ## How Apple, Google, Microsoft, and Meta Actually Do This
 
-- **Google** doesn't run most of its codebase on Git or GitHub internally. Engineers commit small, frequent changes ("Changelists," or CLs) into one giant monorepo, built on an internal system called Piper, reviewed through an internal tool called Critique. Conceptually it's identical to a GitHub Pull Request — propose a change, get it reviewed and tested, merge — just different names and different plumbing. Google's _public_ projects (Android, Chromium, Kubernetes, Go) do use ordinary Git and GitHub-style PRs.
-- **Microsoft** owns GitHub and is one of its largest users — most modern Microsoft teams use trunk-based development on GitHub or Azure DevOps: short-lived branches, mandatory PR review, and required CI status checks before the Merge button is even clickable.
-- **Meta (Facebook)** helped popularize trunk-based development at scale — nearly everything lands on `main` behind a feature flag, historically reviewed through an internal tool called Phabricator, with very heavy automated testing as the safety net instead of long-lived branches.
-- **Apple** is famously compartmentalized: engineers typically only get access to the parts of the codebase relevant to their team, code review is mandatory, and very little is public about their internal tooling — deliberately, for secrecy.
+* **Google** doesn't run most of its codebase on Git or GitHub internally. Engineers commit small, frequent changes ("Changelists," or CLs) into one giant monorepo, built on an internal system called Piper, reviewed through an internal tool called Critique. Conceptually it's identical to a GitHub Pull Request — propose a change, get it reviewed and tested, merge — just different names and different plumbing. Google's *public* projects (Android, Chromium, Kubernetes, Go) do use ordinary Git and GitHub-style PRs.
+* **Microsoft** owns GitHub and is one of its largest users — most modern Microsoft teams use trunk-based development on GitHub or Azure DevOps: short-lived branches, mandatory PR review, and required CI status checks before the Merge button is even clickable.
+* **Meta (Facebook)** helped popularize trunk-based development at scale — nearly everything lands on `main` behind a feature flag, historically reviewed through an internal tool called Phabricator, with very heavy automated testing as the safety net instead of long-lived branches.
+* **Apple** is famously compartmentalized: engineers typically only get access to the parts of the codebase relevant to their team, code review is mandatory, and very little is public about their internal tooling — deliberately, for secrecy.
 
 Across all four: **nobody pushes straight to `main`.** Every one of these companies enforces the same discipline this guide teaches — branch (or its local equivalent), review, automated checks, then merge — just at a scale of thousands of changes a day instead of one.
 
 ## Enforcing the Rules: Branch Protection, CODEOWNERS, Required Checks
 
-Large orgs don't rely on people _remembering_ to open a Pull Request — they configure GitHub so skipping one isn't possible:
+Large orgs don't rely on people *remembering* to open a Pull Request — they configure GitHub so skipping one isn't possible:
 
-| Mechanism                            | What it does                                                                                                                                                  |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Branch protection rule on `main`** | Blocks direct pushes entirely; a Pull Request becomes the only way in                                                                                         |
-| **Required approvals**               | A minimum number of reviewers (often 1–2) must approve before the PR can merge                                                                                |
-| **CODEOWNERS file**                  | Automatically requests review from the right team or person, based on which files changed                                                                     |
-| **Required status checks**           | CI (build, tests, linters, security/dependency scans) must pass — the Merge button stays disabled otherwise                                                   |
-| **Merge strategy policy**            | Many orgs default to **Squash and merge**, so `main`'s history is one clean commit per change — easy to read, and easy to `git revert` if it breaks something |
+| Mechanism | What it does |
+|---|---|
+| **Branch protection rule on `main`** | Blocks direct pushes entirely; a Pull Request becomes the only way in |
+| **Required approvals** | A minimum number of reviewers (often 1–2) must approve before the PR can merge |
+| **CODEOWNERS file** | Automatically requests review from the right team or person, based on which files changed |
+| **Required status checks** | CI (build, tests, linters, security/dependency scans) must pass — the Merge button stays disabled otherwise |
+| **Merge strategy policy** | Many orgs default to **Squash and merge**, so `main`'s history is one clean commit per change — easy to read, and easy to `git revert` if it breaks something |
 
 ## From Merge to Production: Canary Releases and Feature Flags
 
@@ -1718,8 +1719,8 @@ This answers:
 
 Handled by:
 
-- SSH keys (the credential)
-- The SSH config file (which key to use for which alias)
+* SSH keys (the credential)
+* The SSH config file (which key to use for which alias)
 
 ```mermaid
 flowchart LR
@@ -1740,10 +1741,10 @@ git config user.name
 git config user.email
 ```
 
-|              | Name      | Email                   |
-| ------------ | --------- | ----------------------- |
-| **Personal** | Your Name | `personal@example.com`  |
-| **Work**     | Your Name | `your.name@company.com` |
+| | Name | Email |
+|---|---|---|
+| **Personal** | Your Name | `personal@example.com` |
+| **Work** | Your Name | `your.name@company.com` |
 
 ## Two Independent Systems
 
@@ -1767,9 +1768,9 @@ flowchart TB
 
 You need:
 
-- **Git** installed
-- One or more **GitHub accounts**
-- **OpenSSH** (bundled with Git and included in modern Windows, macOS, and Linux)
+* **Git** installed
+* One or more **GitHub accounts**
+* **OpenSSH** (bundled with Git and included in modern Windows, macOS, and Linux)
 
 > If you completed [Part 1](#part-1-getting-started-with-git-and-github-single-organization-account), you already have both — skip to [Section 21](#21-checking-existing-ssh-setup).
 
@@ -1822,8 +1823,8 @@ The default key `id_ed25519` is usually your **personal** GitHub key. If the `.s
 ssh-keygen -t ed25519 -C "your.name@company.com"
 ```
 
-- `-t ed25519` — the recommended modern key type.
-- `-C "..."` — a comment/label (typically your email) so you can identify the key later. It does **not** affect authentication.
+* `-t ed25519` — the recommended modern key type.
+* `-C "..."` — a comment/label (typically your email) so you can identify the key later. It does **not** affect authentication.
 
 When prompted:
 
@@ -1965,11 +1966,9 @@ Create the file at:
 The filename must be exactly `config` — **not** `config.txt`.
 
 > **Windows tip:** Notepad often adds a hidden `.txt`. Create it from PowerShell instead:
->
 > ```powershell
 > notepad $HOME\.ssh\config
 > ```
->
 > Save it, then confirm with `ls ~/.ssh` that the file is named `config` with no extension.
 
 Contents:
@@ -1992,11 +1991,11 @@ Host github-work
 
 What each line does:
 
-- `Host github-personal` — the **alias** you type in URLs (`git@github-personal:...`).
-- `HostName github.com` — the real server both aliases connect to.
-- `User git` — GitHub always authenticates SSH as the `git` user.
-- `IdentityFile` — which private key to use for this alias.
-- `IdentitiesOnly yes` — **use only the listed key**. Without this, ssh-agent offers every loaded key and GitHub logs you in as whichever key it recognizes first — the #1 cause of "wrong account" errors. **Do not omit this line.**
+* `Host github-personal` — the **alias** you type in URLs (`git@github-personal:...`).
+* `HostName github.com` — the real server both aliases connect to.
+* `User git` — GitHub always authenticates SSH as the `git` user.
+* `IdentityFile` — which private key to use for this alias.
+* `IdentitiesOnly yes` — **use only the listed key**. Without this, ssh-agent offers every loaded key and GitHub logs you in as whichever key it recognizes first — the #1 cause of "wrong account" errors. **Do not omit this line.**
 
 Why `IdentitiesOnly yes` matters:
 
@@ -2194,9 +2193,9 @@ Cloning through the alias means the correct key is used automatically for every 
 
 This separation prevents:
 
-- Accidentally pushing company code to a personal (possibly public) repo
-- Commits authored with the wrong email
-- Authentication confusion
+* Accidentally pushing company code to a personal (possibly public) repo
+* Commits authored with the wrong email
+* Authentication confusion
 
 ---
 
@@ -2264,9 +2263,9 @@ pushes to **both** the personal and work repositories.
 
 **Avoid this for company projects.** Reasons:
 
-- Company code can accidentally end up on personal (potentially public) GitHub
-- It may violate your employer's security or IP policies
-- Once pushed publicly, code can be cached or forked before you can delete it
+* Company code can accidentally end up on personal (potentially public) GitHub
+* It may violate your employer's security or IP policies
+* Once pushed publicly, code can be cached or forked before you can delete it
 
 **Recommended:** use separate repositories (see [Section 29](#29-recommended-workflow)) unless you have explicit authorization to mirror.
 
@@ -2300,7 +2299,6 @@ Confirm a file named exactly `config` exists (not `config.txt`, and located in `
    ssh-add ~/.ssh/id_ed25519
    ssh-add ~/.ssh/id_ed25519_work
    ```
-
 3. Re-test: `ssh -T git@github-work`
 
 ## Verify which key is being offered
@@ -2320,9 +2318,9 @@ Confirm the **expected key file** is the one that authenticates.
 
 ## "Permission denied (publickey)"
 
-- The public key isn't added to that GitHub account, or was added to the wrong account → re-check [Section 24](#24-adding-ssh-keys-to-github).
-- The key isn't loaded in the agent → `ssh-add -l`, then re-add it.
-- Wrong `IdentityFile` path in `~/.ssh/config`.
+* The public key isn't added to that GitHub account, or was added to the wrong account → re-check [Section 24](#24-adding-ssh-keys-to-github).
+* The key isn't loaded in the agent → `ssh-add -l`, then re-add it.
+* Wrong `IdentityFile` path in `~/.ssh/config`.
 
 ## A repo still uses the old account after you fixed the config
 
@@ -2345,19 +2343,19 @@ Set-Service ssh-agent -StartupType Automatic
 
 # 33. Quick Reference (Multi-Account)
 
-| Task                  | Command                                                                        |
-| --------------------- | ------------------------------------------------------------------------------ |
-| Create work key       | `ssh-keygen -t ed25519 -C "your.name@company.com"` (save as `id_ed25519_work`) |
-| Start agent (Win)     | `Start-Service ssh-agent`                                                      |
-| Add key               | `ssh-add ~/.ssh/id_ed25519_work`                                               |
-| List loaded keys      | `ssh-add -l`                                                                   |
-| Clear agent           | `ssh-add -D`                                                                   |
-| Copy public key (Win) | `Get-Content ~/.ssh/id_ed25519.pub \| Set-Clipboard`                           |
-| Test connection       | `ssh -T git@github-work`                                                       |
-| Debug connection      | `ssh -vT git@github-work`                                                      |
-| Clone (work)          | `git clone git@github-work:organization-name/project.git`                      |
-| Set commit email      | `git config user.email "your.name@company.com"`                                |
-| List remotes          | `git remote -v`                                                                |
+| Task | Command |
+|---|---|
+| Create work key | `ssh-keygen -t ed25519 -C "your.name@company.com"` (save as `id_ed25519_work`) |
+| Start agent (Win) | `Start-Service ssh-agent` |
+| Add key | `ssh-add ~/.ssh/id_ed25519_work` |
+| List loaded keys | `ssh-add -l` |
+| Clear agent | `ssh-add -D` |
+| Copy public key (Win) | `Get-Content ~/.ssh/id_ed25519.pub \| Set-Clipboard` |
+| Test connection | `ssh -T git@github-work` |
+| Debug connection | `ssh -vT git@github-work` |
+| Clone (work) | `git clone git@github-work:organization-name/project.git` |
+| Set commit email | `git config user.email "your.name@company.com"` |
+| List remotes | `git remote -v` |
 
 ---
 
